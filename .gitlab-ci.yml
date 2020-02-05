@@ -1,4 +1,8 @@
-image: node:latest
+image: trion/ng-cli-karma:latest
+
+before_script:
+    - cd webapp
+    - npm install
 
 cache:
   paths:
@@ -7,9 +11,7 @@ cache:
 stages:
   - test
 
-test:
+job_lint:
   stage: test
   script:
-    - cd webapp
-    - npm install
-    - npm run test
+    - npm run lint
