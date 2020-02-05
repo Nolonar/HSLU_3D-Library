@@ -6,3 +6,10 @@ cache:
 
 stages:
   - test
+
+test:
+  stage: test
+  script:
+    - npm install npm@latest -g
+    - npm install
+    - npm test
