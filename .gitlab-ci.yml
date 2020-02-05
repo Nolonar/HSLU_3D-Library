@@ -2,7 +2,7 @@ image: node:latest
 
 cache:
   paths:
-    - node_modules/
+    - webapp/node_modules/
 
 stages:
   - test
@@ -10,6 +10,5 @@ stages:
 test:
   stage: test
   script:
-    - npm install npm@latest -g
-    - npm install
-    - npm test
+    - cd webapp
+    - npm run test
