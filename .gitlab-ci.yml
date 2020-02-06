@@ -3,20 +3,33 @@ image: trion/ng-cli-karma:latest
 before_script:
     - cd webapp
     - npm install
+    - npm run env
+    - echo "$dbAdmin"
 
 cache:
   paths:
     - node_modules/
 
 stages:
+  - build
   - test
+
+job_ng:
+  stage: build
+  script:
+    - npm run ng
 
 job_lint:
   stage: test
   script:
     - npm run lint
 
-job_e2e:
+job_start:
   stage: test
   script:
-    - npm run e2e
+    - npm run start
+
+job_test:
+  stage: test
+  script:
+    - npm run test
