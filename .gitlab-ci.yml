@@ -1,6 +1,6 @@
 image: trion/ng-cli-karma:latest
 
-  before_script:
+before_script:
     - cd webapp
     - npm install
     - npm run config
