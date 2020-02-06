@@ -6,8 +6,7 @@ before_script:
     - echo "%DB_USER%"
     - echo $DB_USER
     - echo %DB_USER%
-    - echo "export const environment = { production: false, DB_USER: $DB_USER, DB_PASSWORD: $DB_PASSWORD };" > src/environments/environment.ts
-    - npm install
+    -  npm install
 
 cache:
   paths:
