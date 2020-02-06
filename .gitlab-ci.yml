@@ -1,12 +1,9 @@
 image: trion/ng-cli-karma:latest
 
 before_script:
-    - echo $CI_JOB_STAGE
-    - echo $DB_USER
     - cd webapp
-    - echo "$DB_USER"
-    - echo $DB_USER
-    -  npm install
+    - 'echo "export const environment = { production: false, DB_USER: $DB_USER, DB_PASSWORD: $DB_PASSWORD };" > src/environments/environment.ts'
+    - npm install
 
 cache:
   paths:
@@ -19,8 +16,6 @@ stages:
 job_ng:
   stage: build
   script:
-    - echo $CI_JOB_STAGE
-    - echo $DB_USER
     - npm run ng
 
 job_lint:
