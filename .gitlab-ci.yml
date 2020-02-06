@@ -1,9 +1,9 @@
 image: trion/ng-cli-karma:latest
 
-before_script:
+  before_script:
     - cd webapp
-    - 'echo "export const environment = { production: false, DB_USER: $DB_USER, DB_PASSWORD: $DB_PASSWORD };" > src/environments/environment.ts'
     - npm install
+    - npm run config
 
 cache:
   paths:

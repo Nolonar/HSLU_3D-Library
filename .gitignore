@@ -13,4 +13,4 @@ yarn.lock
 .yarnclean
 .vscode
 package-lock.json
-webapp/src/environments/*
+.env
