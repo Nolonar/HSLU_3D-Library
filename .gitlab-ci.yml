@@ -1,11 +1,11 @@
 image: trion/ng-cli-karma:latest
 
 before_script:
+    - echo $CI_JOB_STAGE
+    - echo $DB_USER
     - cd webapp
     - echo "$DB_USER"
-    - echo "%DB_USER%"
     - echo $DB_USER
-    - echo %DB_USER%
     -  npm install
 
 cache:
@@ -19,6 +19,8 @@ stages:
 job_ng:
   stage: build
   script:
+    - echo $CI_JOB_STAGE
+    - echo $DB_USER
     - npm run ng
 
 job_lint:
