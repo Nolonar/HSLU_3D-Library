@@ -4,7 +4,6 @@ import { DetailComponent } from './detail/detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { OverviewComponent } from './overview/overview.component';
 
-
 const routes: Routes = [
     { path: '', component: OverviewComponent },
     { path: 'detail/:id', component: DetailComponent },
