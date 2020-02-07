@@ -2,4 +2,4 @@
 <div id="uploader">Uploaded by {{model.uploaderId}} on {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
 </div>
 <img src="/assets/images/{{model.previewFilename}}">
-<app-viewer></app-viewer>
+<app-viewer [filename]="model.modelFilename"></app-viewer>

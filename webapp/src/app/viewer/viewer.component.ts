@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AmbientLight, AnimationMixer, Camera, GridHelper, ObjectLoader, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Component, Input, OnInit } from '@angular/core';
+// tslint:disable-next-line:max-line-length
+import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Component({
     selector: 'app-viewer',
@@ -7,7 +9,7 @@ import { AmbientLight, AnimationMixer, Camera, GridHelper, ObjectLoader, Perspec
     styleUrls: ['./viewer.component.css']
 })
 export class ViewerComponent implements OnInit {
-    loader: ObjectLoader;
+    @Input() filename: string;
 
     renderer: WebGLRenderer;
     scene: Scene;
@@ -15,19 +17,26 @@ export class ViewerComponent implements OnInit {
     camera: Camera;
     mixer: AnimationMixer;
 
-    model;
+    obj: GLTF;
+    model: Object3D;
+
+    previousTimeStamp = 0;
 
     constructor() {
     }
 
     ngOnInit() {
+        console.log(this.filename);
+
         this.renderer = this.createRenderer();
         document.getElementById('viewport').appendChild(this.renderer.domElement);
 
         this.setupScene();
         this.setupCamera();
         this.registerEventHandlers(this.renderer.domElement);
-        this.loadModel(this.loader);
+        this.loadModel(new GLTFLoader(), `/assets/models/${this.filename}`);
+
+        requestAnimationFrame(this.animate.bind(this));
     }
 
     createRenderer(): WebGLRenderer {
@@ -104,31 +113,56 @@ export class ViewerComponent implements OnInit {
         };
     }
 
-    loadModel(loader: ObjectLoader) {
-        // loader.load(
-        //     'bla',
+    loadModel(loader: GLTFLoader, filename: string) {
+        loader.load(
+            filename,
 
-        //     // onLoad callback
-        //     function (obj) {
-        //         modelRaw = obj;
-        //         model = obj.scene;
-        //         let animations = obj.animations;
+            // onLoad callback
+            function (obj) {
+                this.obj = obj;
+                this.model = obj.scene;
+                const animations = obj.animations;
 
-        //         normalizeModelSize(model);
-        //         this.scene.add(model);
+                this.normalizeModelSize(this.model);
+                this.scene.add(this.model);
 
-        //         if (animations) {
-        //             mixer = new THREE.AnimationMixer(model);
-        //             let clip = animations[0];
-        //             playAnimation(clip);
-        //         }
-        //     },
+                if (animations) {
+                    this.mixer = new AnimationMixer(this.model);
+                    const clip = animations[0];
+                    this.playAnimation(clip);
+                }
+            }.bind(this),
 
-        //     // onProgress callback
-        //     (xhr) => console.log(`${xhr.loaded / xhr.total * 100}% loaded`),
+            // onProgress callback
+            (xhr) => console.log(`${xhr.loaded / xhr.total * 100}% loaded`),
 
-        //     // onError callback
-        //     (err) => console.error(`An error happened: ${err}`)
-        // );
+            // onError callback
+            (err) => console.error(`An error happened: ${err}`)
+        );
+    }
+
+    normalizeModelSize(model: Object3D) {
+        const size = new Vector3();
+        new Box3().setFromObject(model).getSize(size);
+
+        const scale = 2 / Math.max(size.x, size.y);
+        model.scale.multiplyScalar(scale);
+    }
+
+    playAnimation(clip: AnimationClip) {
+        this.mixer.clipAction(clip).play();
+        this.normalizeModelSize(this.model);
+    }
+
+    animate(timestamp: number) {
+        if (this.mixer) {
+            const delta = timestamp - this.previousTimeStamp;
+            this.previousTimeStamp = timestamp;
+            this.mixer.update(delta / 1000);
+        }
+
+        this.renderer.render(this.scene, this.camera);
+
+        requestAnimationFrame(this.animate.bind(this));
     }
 }
