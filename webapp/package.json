@@ -3,7 +3,6 @@
     "version": "0.0.0",
     "scripts": {
         "env": "ts-node set-env.ts",
-        "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
         "test": "ng test --watch=false",

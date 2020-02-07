@@ -13,17 +13,17 @@ stages:
   - build
   - test
 
-job_ng:
+job_build:
   stage: build
   script:
-    - npm run ng
+    - npm run build
 
 job_lint:
   stage: test
   script:
     - npm run lint
 
-job_test:
+job_karma:
   stage: test
   script:
     - npm run test
