@@ -23,11 +23,6 @@ job_lint:
   script:
     - npm run lint
 
-job_start:
-  stage: test
-  script:
-    - npm run start
-
 job_test:
   stage: test
   script:
