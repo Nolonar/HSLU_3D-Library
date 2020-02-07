@@ -1,6 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -8,7 +7,6 @@ describe('AppComponent', () => {
     }));
 
     it('should create the app', () => {
-        console.log(environment.DB_USER);
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
