@@ -14,4 +14,3 @@ yarn.lock
 .vscode
 package-lock.json
 .env
-environment/*.ts
