@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { ModelService } from '../model.service'
+import { Model } from '../model'
 
 @Component({
   selector: 'app-detail',
@@ -6,10 +10,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
+  model: Model;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private modelService: ModelService) { }
 
   ngOnInit() {
+    this.getModel();
   }
 
+  getModel() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.modelService.getModel(id).subscribe(m => this.model = m);
+  }
 }
