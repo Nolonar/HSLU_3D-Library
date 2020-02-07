@@ -12,6 +12,7 @@ const envConfigFile =
 };
 `;
 fs.writeFile(targetPath, envConfigFile, function (err) {
+    console.log(process.env); // test if variables is available
     if (err) {
         throw console.error(err);
     } else {
