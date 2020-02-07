@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs'; // TO DO: Remove when fetching models from real database
 import { Model } from '../app/model';
 
-
 @Injectable({
     providedIn: 'root'
 })

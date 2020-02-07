@@ -1,1 +1,6 @@
-<p>overview works!</p>
+<div *ngFor="let model of models" class="panel">
+    <a routerLink="/detail/{{model.id}}">
+        <h2>{{model.name}}</h2>
+        <img src="/assets/images/{{model.previewFilename}}">
+    </a>
+</div>
