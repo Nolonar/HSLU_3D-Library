@@ -3,6 +3,9 @@
     <div id="uploader">Uploaded by {{model.uploaderId}} on {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
     </div>
     <app-viewer [filename]="model.modelFilename"></app-viewer>
+    <div id="download">
+        <a href="/assets/models/{{model.modelFilename}}">Download (.{{model.modelFilename | fileExtension}})</a>
+    </div>
 </div>
 <ng-template #noModel>
     <app-not-found></app-not-found>

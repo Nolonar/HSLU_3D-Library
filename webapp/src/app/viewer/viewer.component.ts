@@ -116,7 +116,7 @@ export class ViewerComponent implements OnInit {
     }
 
     private loadModel(filename: string) {
-        new LoaderManager().load(filename, (model: Model3D) => {
+        LoaderManager.load(filename, (model: Model3D) => {
             this.model = model;
 
             this.normalizeModelSize(model);

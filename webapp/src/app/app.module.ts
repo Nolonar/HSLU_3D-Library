@@ -5,8 +5,8 @@ import { AppComponent } from './app.component';
 import { DetailComponent } from './detail/detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { OverviewComponent } from './overview/overview.component';
+import { FileExtensionPipe } from './pipes';
 import { ViewerComponent } from './viewer/viewer.component';
-
 
 @NgModule({
     declarations: [
@@ -14,7 +14,8 @@ import { ViewerComponent } from './viewer/viewer.component';
         DetailComponent,
         OverviewComponent,
         NotFoundComponent,
-        ViewerComponent
+        ViewerComponent,
+        FileExtensionPipe
     ],
     imports: [
         BrowserModule,
