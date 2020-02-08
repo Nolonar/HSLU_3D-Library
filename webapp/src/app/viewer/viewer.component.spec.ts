@@ -20,6 +20,7 @@ describe('ViewerComponent', () => {
     });
 
     it('should create', () => {
+        console.log('ViewerComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

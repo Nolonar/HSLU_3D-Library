@@ -20,6 +20,7 @@ describe('OverviewComponent', () => {
     });
 
     it('should create', () => {
+        console.log('OverviewComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

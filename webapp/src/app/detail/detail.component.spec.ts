@@ -20,6 +20,7 @@ describe('DetailComponent', () => {
     });
 
     it('should create', () => {
+        console.log('DetailComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });
