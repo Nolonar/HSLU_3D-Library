@@ -26,17 +26,21 @@ export class ViewerComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.filename);
+        if (this.filename) {
+            console.log('this.filename: ' + this.filename);
 
-        this.renderer = this.createRenderer();
-        document.getElementById('viewport').appendChild(this.renderer.domElement);
+            this.renderer = this.createRenderer();
+            document.getElementById('viewport').appendChild(this.renderer.domElement);
 
-        this.setupScene();
-        this.setupCamera();
-        this.registerEventHandlers(this.renderer.domElement);
-        this.loadModel(new GLTFLoader(), `/assets/models/${this.filename}`);
+            this.setupScene();
+            this.setupCamera();
+            this.registerEventHandlers(this.renderer.domElement);
+            this.loadModel(new GLTFLoader(), `/assets/models/${this.filename}`);
 
-        requestAnimationFrame(this.animate.bind(this));
+            requestAnimationFrame(this.animate.bind(this));
+        } else {
+            console.log('viewer could not be loaded due missing filename');
+        }
     }
 
     createRenderer(): WebGLRenderer {
@@ -134,10 +138,10 @@ export class ViewerComponent implements OnInit {
             }.bind(this),
 
             // onProgress callback
-            (xhr) => console.log(`${xhr.loaded / xhr.total * 100}% loaded`),
+            (xhr) => console.log(`model ${xhr.loaded / xhr.total * 100}% loaded`),
 
             // onError callback
-            (err) => console.error(`An error happened: ${err}`)
+            (err) => console.error(`An error happened while loading the model: ${err}`)
         );
     }
 

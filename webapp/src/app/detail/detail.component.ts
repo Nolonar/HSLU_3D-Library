@@ -11,9 +11,12 @@ import { ModelService } from '../model.service';
 export class DetailComponent implements OnInit {
     model: Model;
 
-    constructor(private route: ActivatedRoute, private modelService: ModelService) { }
+    constructor(private route: ActivatedRoute, private modelService: ModelService) {
+        console.log('detail route: ' + route);
+    }
 
     ngOnInit() {
+        console.log('this.route: ' + this.route);
         this.getModel();
     }
 
