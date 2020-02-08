@@ -1,6 +1,10 @@
-<div *ngFor="let model of models" class="panel">
-    <a routerLink="/detail/{{model.id}}">
-        <h2>{{model.name}}</h2>
-        <img src="/assets/images/{{model.previewFilename}}">
-    </a>
+<div class='dashboard'>
+    <div *ngFor="let model of models" class='panel shadow'>
+        <a routerLink="/detail/{{model.id}}">
+            <div class='title'>
+                <h2>{{model.name}}</h2>
+            </div>
+            <img src="/assets/images/{{model.previewFilename}}" alt='{{model.name}} preview'>
+        </a>
+    </div>
 </div>

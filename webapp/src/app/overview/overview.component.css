@@ -1,14 +1,32 @@
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .panel {
-    background-color: #ffffff;
-    border-radius: 4pt;
-    border-color: #555555;
-    width: 400pt;
-    height: 300pt;
+    width: fit-content;
+    height: fit-content;
     margin: 15pt;
-    padding: 10pt;
+    padding-left: 3pt;
+    padding-right: 3pt;
+    border-radius: 3pt;
+    /* padding-bottom: 3pt; */
+    background-color: #f0f0f0;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    height: 30pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .panel img {
-    height: 100%;
-    width: 100%;
+    background-color: #ffffff;
+    width: 280pt;
+    height: 210pt;
+    border-radius: 3pt;
 }
