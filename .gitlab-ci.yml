@@ -2,6 +2,7 @@ image: trion/ng-cli-karma:latest
 
 before_script:
     - echo start before_script...
+    - cd webapp
 
 cache:
   paths:
@@ -15,8 +16,6 @@ job_build:
   stage: build
   script:
     - echo start job_build...
-    - pwd
-    - cd webapp
     - npm install
     - npm run env
     - npm run build
@@ -25,12 +24,10 @@ job_lint:
   stage: test
   script:
     - echo start job_lint...
-    - pwd
     - npm run lint
 
 job_karma:
   stage: test
   script:
     - echo start job_karma...
-    - pwd
     - npm run test
