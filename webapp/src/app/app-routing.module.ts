@@ -7,8 +7,7 @@ import { OverviewComponent } from './overview/overview.component';
 const routes: Routes = [
     { path: '', component: OverviewComponent },
     { path: 'detail/:id', component: DetailComponent },
-    { path: '404', component: NotFoundComponent },
-    { path: '**', redirectTo: '/404' }
+    { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
