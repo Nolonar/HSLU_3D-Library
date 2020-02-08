@@ -30,8 +30,8 @@
             true,
             "rxjs/Rx"
         ],
-        "interface-name": false,
-        "max-classes-per-file": false,
+        "interface-name": true,
+        "max-classes-per-file": true,
         "max-line-length": [
             true,
             140
@@ -48,7 +48,7 @@
                 ]
             }
         ],
-        "no-consecutive-blank-lines": false,
+        "no-consecutive-blank-lines": true,
         "no-console": [
             true,
             "debug",
@@ -65,7 +65,7 @@
         "no-non-null-assertion": true,
         "no-redundant-jsdoc": true,
         "no-switch-case-fall-through": true,
-        "no-var-requires": false,
+        "no-var-requires": true,
         "object-literal-key-quotes": [
             true,
             "as-needed"
@@ -76,7 +76,7 @@
             true,
             "single"
         ],
-        "trailing-comma": false,
+        "trailing-comma": true,
         "no-conflicting-lifecycle": true,
         "no-host-metadata-property": true,
         "no-input-rename": true,
@@ -165,7 +165,7 @@
         "prefer-array-literal": true,
         "class-name": true,
         "curly": true,
-        "eofline": false,
+        "eofline": true,
         "forin": true,
         "indent": [
             true,
@@ -202,7 +202,7 @@
             true,
             "allow-null-check"
         ],
-        "variable-name": false,
+        "variable-name": true,
         "whitespace": [
             true,
             "check-branch",
