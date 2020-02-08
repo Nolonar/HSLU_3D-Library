@@ -52,7 +52,7 @@ export class ViewerComponent implements OnInit {
 
     private setupScene() {
         this.scene = new Scene();
-        this.grid = new GridHelper(10, 10);
+        this.grid = new GridHelper(30, 30, 0x000000, 0x000000);
         this.scene.add(this.grid);
 
         const color = 'white';
