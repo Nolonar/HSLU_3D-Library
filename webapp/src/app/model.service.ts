@@ -30,7 +30,168 @@ export class ModelService {
             previewFilename: 'clown-fish.png',
             creationDate: new Date(),
             uploaderId: 1
-        }
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        }, {
+            id: 1,
+            name: 'Bee',
+            modelFilename: 'bee.glb',
+            previewFilename: 'bee.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 2,
+            name: 'Chicken',
+            modelFilename: 'chicken.glb',
+            previewFilename: 'chicken.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
+        {
+            id: 3,
+            name: 'Clown fish',
+            modelFilename: 'clown-fish.glb',
+            previewFilename: 'clown-fish.png',
+            creationDate: new Date(),
+            uploaderId: 1
+        },
     ];
 
     constructor() { }
