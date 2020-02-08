@@ -5,7 +5,7 @@ export class Model3D {
     animations: AnimationClip[];
     currentAnimation: AnimationClip;
 
-    constructor(mesh: Object3D, animations: AnimationClip[] = null) {
+    constructor(mesh: Object3D, animations?: AnimationClip[]) {
         this.mesh = mesh;
         this.animations = animations;
     }

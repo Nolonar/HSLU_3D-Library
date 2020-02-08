@@ -23,7 +23,7 @@ export class LoaderManager {
         new loader().load(
             filename,
             // onLoad
-            (obj: any) => callback(createModel(obj)),
+            (obj) => callback(createModel(obj)),
             // onProgress callback
             (xhr: ProgressEvent<EventTarget>) => console.log(`model ${xhr.loaded / xhr.total * 100}% loaded`),
             // onError callback
