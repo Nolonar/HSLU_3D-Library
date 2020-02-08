@@ -27,8 +27,6 @@ export class ViewerComponent implements OnInit {
 
     ngOnInit() {
         if (this.filename) {
-            console.log('this.filename: ' + this.filename);
-
             this.renderer = this.createRenderer();
             document.getElementById('viewport').appendChild(this.renderer.domElement);
 
