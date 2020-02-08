@@ -27,6 +27,7 @@
 .panel img {
     background-color: #ffffff;
     width: 280pt;
-    height: 210pt;
+    max-width: 100%;
+    height: auto;
     border-radius: 3pt;
 }
