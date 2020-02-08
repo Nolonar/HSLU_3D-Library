@@ -13,14 +13,14 @@ export class ModelService {
     private clownFishFile = 'clown-fish.glb';
     private clownFishImage = 'clown-fish.png';
     mockDb: Model[] = [
-        }
+        {
             id: 4,
             name: 'Suzanne',
             modelFilename: 'suzanne.obj',
             previewFilename: 'suzanne.png',
             creationDate: new Date(),
             uploaderId: 1
-        },{
+        }, {
             id: 1,
             name: 'Bee 1',
             modelFilename: this.beeFile,
