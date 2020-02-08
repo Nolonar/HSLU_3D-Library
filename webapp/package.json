@@ -19,7 +19,7 @@
         "@angular/platform-browser": "^9.0.0",
         "@angular/platform-browser-dynamic": "^9.0.0",
         "@angular/router": "^9.0.0",
-        "colors": "^1.1.2",
+        "colors": "^1.4.0",
         "dotenv": "^5.0.1",
         "rxjs": "^6.5.4",
         "three": "^0.113.2",
@@ -44,7 +44,9 @@
         "karma-jasmine-html-reporter": "^1.4.0",
         "protractor": "^5.4.0",
         "ts-node": "^7.0.0",
-        "tslint": "^5.20.1",
+        "tslint": "^6.0.0",
+        "tslint-microsoft-contrib": "6.2.0",
+        "tslint-sonarts": "^1.9.0",
         "typescript": "^3.7.5"
     }
 }

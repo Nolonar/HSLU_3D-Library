@@ -11,7 +11,9 @@ export class OverviewComponent implements OnInit {
 
     models: Model[];
 
-    constructor(private modelService: ModelService) { }
+    constructor(private modelService: ModelService) {
+        // empty
+    }
 
     ngOnInit() {
         this.getModel();

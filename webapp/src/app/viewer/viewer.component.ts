@@ -22,6 +22,7 @@ export class ViewerComponent implements OnInit {
     previousTimeStamp = 0;
 
     constructor() {
+        // empty
     }
 
     ngOnInit() {
@@ -102,7 +103,7 @@ export class ViewerComponent implements OnInit {
         };
 
         canvas.onmouseup = (event) => {
-            mousePreviousLocation = null;
+            mousePreviousLocation = undefined;
         };
 
         canvas.onwheel = (event) => {
