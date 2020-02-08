@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-// tslint:disable-next-line:max-line-length
-import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { AmbientLight, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { LoaderManager } from './loaderManager';
+import { Model3D } from './model3d';
 
 @Component({
     selector: 'app-viewer',
@@ -17,8 +17,7 @@ export class ViewerComponent implements OnInit {
     camera: Camera;
     mixer: AnimationMixer;
 
-    obj: GLTF;
-    model: Object3D;
+    model: Model3D;
 
     previousTimeStamp = 0;
 
@@ -33,7 +32,7 @@ export class ViewerComponent implements OnInit {
             this.setupScene();
             this.setupCamera();
             this.registerEventHandlers(this.renderer.domElement);
-            this.loadModel(new GLTFLoader(), `/assets/models/${this.filename}`);
+            this.loadModel(`/assets/models/${this.filename}`);
 
             requestAnimationFrame(this.animate.bind(this));
         } else {
@@ -41,15 +40,17 @@ export class ViewerComponent implements OnInit {
         }
     }
 
-    createRenderer(): WebGLRenderer {
+    private createRenderer(): WebGLRenderer {
         const renderer = new WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        const width = 800;
+        const height = 450;
+        renderer.setSize(width, height);
         renderer.setClearColor(0x4488cc);
 
         return renderer;
     }
 
-    setupScene() {
+    private setupScene() {
         this.scene = new Scene();
         this.grid = new GridHelper(10, 10);
         this.scene.add(this.grid);
@@ -57,10 +58,9 @@ export class ViewerComponent implements OnInit {
         const color = 'white';
         const intensity = 1;
         this.scene.add(new AmbientLight(color, intensity));
-
     }
 
-    setupCamera() {
+    private setupCamera() {
         const fov = 75;
         const aspectRatio = 16 / 9;
         const near = 0.1;
@@ -69,7 +69,7 @@ export class ViewerComponent implements OnInit {
         this.camera.position.z = 5;
     }
 
-    registerEventHandlers(canvas: HTMLCanvasElement) {
+    private registerEventHandlers(canvas: HTMLCanvasElement) {
         let mousePreviousLocation: { x: number, y: number };
 
         canvas.onmousedown = (event) => {
@@ -95,8 +95,8 @@ export class ViewerComponent implements OnInit {
             };
 
             const mouseSmoothing = 0.01;
-            this.model.rotation.y += delta.x * mouseSmoothing;
-            this.model.rotation.x += delta.y * mouseSmoothing;
+            this.model.mesh.rotation.y += delta.x * mouseSmoothing;
+            this.model.mesh.rotation.x += delta.y * mouseSmoothing;
             this.grid.rotation.y += delta.x * mouseSmoothing;
             this.grid.rotation.x += delta.y * mouseSmoothing;
         };
@@ -115,48 +115,38 @@ export class ViewerComponent implements OnInit {
         };
     }
 
-    loadModel(loader: GLTFLoader, filename: string) {
-        loader.load(
-            filename,
+    private loadModel(filename: string) {
+        new LoaderManager().load(filename, (model: Model3D) => {
+            this.model = model;
 
-            // onLoad callback
-            function (obj) {
-                this.obj = obj;
-                this.model = obj.scene;
-                const animations = obj.animations;
+            this.normalizeModelSize(model);
+            this.scene.add(model.mesh);
 
-                this.normalizeModelSize(this.model);
-                this.scene.add(this.model);
-
-                if (animations) {
-                    this.mixer = new AnimationMixer(this.model);
-                    const clip = animations[0];
-                    this.playAnimation(clip);
-                }
-            }.bind(this),
-
-            // onProgress callback
-            (xhr) => console.log(`model ${xhr.loaded / xhr.total * 100}% loaded`),
-
-            // onError callback
-            (err) => console.error(`An error happened while loading the model: ${err}`)
-        );
+            if (model.animations) {
+                model.currentAnimation = model.animations[0];
+                this.playAnimation(model);
+            }
+        });
     }
 
-    normalizeModelSize(model: Object3D) {
+    private normalizeModelSize(model: Model3D) {
         const size = new Vector3();
-        new Box3().setFromObject(model).getSize(size);
+        new Box3().setFromObject(model.mesh).getSize(size);
 
         const scale = 2 / Math.max(size.x, size.y);
-        model.scale.multiplyScalar(scale);
+        model.mesh.scale.multiplyScalar(scale);
     }
 
-    playAnimation(clip: AnimationClip) {
-        this.mixer.clipAction(clip).play();
+    private playAnimation(model: Model3D) {
+        if (!this.mixer) {
+            this.mixer = new AnimationMixer(model.mesh);
+        }
+
+        this.mixer.clipAction(model.currentAnimation).play();
         this.normalizeModelSize(this.model);
     }
 
-    animate(timestamp: number) {
+    private animate(timestamp: number) {
         if (this.mixer) {
             const delta = timestamp - this.previousTimeStamp;
             this.previousTimeStamp = timestamp;
