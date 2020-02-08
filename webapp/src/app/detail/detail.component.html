@@ -1,4 +1,9 @@
-<h2>{{model.name}}</h2>
-<div id="uploader">Uploaded by {{model.uploaderId}} on {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
+<div *ngIf='model; else noModel'>
+    <h2>{{model.name}}</h2>
+    <div id="uploader">Uploaded by {{model.uploaderId}} on {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
+    </div>
+    <app-viewer [filename]="model.modelFilename"></app-viewer>
 </div>
-<app-viewer [filename]="model.modelFilename"></app-viewer>
+<ng-template #noModel>
+    <p>Model not found</p>
+</ng-template>
