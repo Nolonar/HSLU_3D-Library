@@ -7,6 +7,11 @@ body {
     background-color: #f7f7f7;
 }
 
+.shadow {
+    box-shadow: 0 0 0 0 #dddddd;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
 .shadow:hover {
     box-shadow: 0 0 9px 6px #dddddd;
 }
