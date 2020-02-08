@@ -1,11 +1,1 @@
-#download {
-    display: inline-block;
-}
 
-#download > a {
-    display: inline-block;
-    padding: 5px;
-    border: thin solid black;
-    border-radius: 3px;
-    background-color: lightgray;
-}
