@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AmbientLight, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { LoaderManager } from './loaderManager';
 import { Model3D } from './model3d';
 
@@ -22,6 +22,10 @@ export class ViewerComponent implements OnInit {
     private model: Model3D;
 
     private previousTimeStamp = 0;
+
+    private get animationSelect(): HTMLElement {
+        return document.getElementById('animations');
+    }
 
     constructor() {
         // empty
@@ -69,6 +73,10 @@ export class ViewerComponent implements OnInit {
         const near = 0.1;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);
+        this.resetCameraZoom();
+    }
+
+    private resetCameraZoom() {
         this.camera.position.z = 5;
     }
 
@@ -127,11 +135,28 @@ export class ViewerComponent implements OnInit {
 
             this.renderer.setClearColor(this.rendererBackgroundColor);
 
-            if (model.animations) {
-                model.currentAnimation = model.animations[0];
-                this.playAnimation(model);
+            if (model.animations.length) {
+                this.populateAnimationSelect(model.animations);
+                this.selectAnimation(model.animations[0].name);
+                document.getElementById('control-animations').classList.remove('hidden');
             }
         });
+    }
+
+    private populateAnimationSelect(animations: AnimationClip[]) {
+        for (const animation of animations) {
+            const template = document.createElement('template');
+            template.innerHTML = `<option value='${animation.name}'>${animation.name}</option>`;
+
+            this.animationSelect.appendChild(template.content.firstChild);
+        }
+    }
+
+    private selectAnimation(animationName: string) {
+        this.resetCameraZoom();
+
+        this.model.currentAnimation = AnimationClip.findByName(this.model.animations, animationName);
+        this.playAnimation(this.model);
     }
 
     private normalizeModelSize(model: Model3D) {
@@ -147,6 +172,7 @@ export class ViewerComponent implements OnInit {
             this.mixer = new AnimationMixer(model.mesh);
         }
 
+        this.mixer.stopAllAction();
         this.mixer.clipAction(model.currentAnimation).play();
         this.normalizeModelSize(this.model);
     }

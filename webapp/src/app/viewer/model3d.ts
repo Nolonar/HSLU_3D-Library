@@ -7,6 +7,6 @@ export class Model3D {
 
     constructor(mesh: Object3D, animations?: AnimationClip[]) {
         this.mesh = mesh;
-        this.animations = animations;
+        this.animations = animations || [];
     }
 }
