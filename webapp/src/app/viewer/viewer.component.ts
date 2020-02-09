@@ -53,7 +53,6 @@ export class ViewerComponent implements OnInit {
         const height = 450;
         renderer.setSize(width, height);
         renderer.setClearColor(0x000000);
-
         return renderer;
     }
 
