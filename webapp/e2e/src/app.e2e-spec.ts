@@ -13,7 +13,6 @@ describe('workspace-project App', () => {
         await expect(await page.getHeaderText()).toEqual('3D Library – Explore And Collect');
     });
 
-
     it('test overview', async () => {
         await page.navigateTo();
         await expect(await page.getTitlebarText()).toEqual('Suzanne');

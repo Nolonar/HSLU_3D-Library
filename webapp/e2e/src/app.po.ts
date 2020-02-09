@@ -18,11 +18,11 @@ export class AppPage {
         return element(by.css('.panel')).click();
     }
 
-    async getTitlebarText(): Promise<String> {
+    async getTitlebarText(): Promise<string> {
         return element(by.css('.titlebar')).getText();
     }
 
-    async getInfoText(): Promise<String> {
+    async getInfoText(): Promise<string> {
         return element(by.css('.info')).getText();
     }
 
