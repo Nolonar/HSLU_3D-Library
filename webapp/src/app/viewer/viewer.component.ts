@@ -9,17 +9,19 @@ import { Model3D } from './model3d';
     styleUrls: ['./viewer.component.css']
 })
 export class ViewerComponent implements OnInit {
+    private readonly rendererBackgroundColor = 0x4488cc;
+
     @Input() filename: string;
 
-    renderer: WebGLRenderer;
-    scene: Scene;
-    grid: GridHelper;
-    camera: Camera;
-    mixer: AnimationMixer;
+    private renderer: WebGLRenderer;
+    private scene: Scene;
+    private grid: GridHelper;
+    private camera: Camera;
+    private mixer: AnimationMixer;
 
-    model: Model3D;
+    private model: Model3D;
 
-    previousTimeStamp = 0;
+    private previousTimeStamp = 0;
 
     constructor() {
         // empty
@@ -46,7 +48,7 @@ export class ViewerComponent implements OnInit {
         const width = 800;
         const height = 450;
         renderer.setSize(width, height);
-        renderer.setClearColor(0x4488cc);
+        renderer.setClearColor(0x000000);
 
         return renderer;
     }
@@ -122,6 +124,8 @@ export class ViewerComponent implements OnInit {
 
             this.normalizeModelSize(model);
             this.scene.add(model.mesh);
+
+            this.renderer.setClearColor(this.rendererBackgroundColor);
 
             if (model.animations) {
                 model.currentAnimation = model.animations[0];

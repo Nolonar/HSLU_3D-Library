@@ -16,18 +16,27 @@ export class LoaderManager {
     };
 
     public static load(filename: string, callback: (model: Model3D) => void) {
+        const progressBar = document.getElementById("loading");
+
         const extension = StringHelper.getFileExtension(filename);
         const loader = this.loaders[extension];
         const createModel = this.createModelFunctions[extension];
 
         new loader().load(
             filename,
-            // onLoad
-            (obj) => callback(createModel(obj)),
-            // onProgress callback
-            (xhr: ProgressEvent<EventTarget>) => console.log(`model ${xhr.loaded / xhr.total * 100}% loaded`),
-            // onError callback
-            (err: ErrorEvent) => console.error(`An error happened while loading the model: ${err}`)
+            (obj) => {
+                callback(createModel(obj))
+                progressBar.classList.add("hidden");
+            },
+            (xhr: ProgressEvent<EventTarget>) => {
+                progressBar.setAttribute("max", `${xhr.total}`);
+                progressBar.setAttribute("value", `${xhr.loaded}`);
+                progressBar.innerText = `${xhr.loaded / xhr.total * 100}%`;
+            },
+            (err: ErrorEvent) => {
+                console.error(`An error happened while loading the model: ${err}`);
+                progressBar.classList.add("hidden");
+            }
         );
     }
 }
