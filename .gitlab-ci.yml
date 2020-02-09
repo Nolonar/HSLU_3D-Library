@@ -2,7 +2,6 @@ image: trion/ng-cli-karma:latest
 
 before_script:
     - echo start before_script...
-    - curl ifconfig.co
     - cd webapp
     - npm install
 
