@@ -6,8 +6,6 @@ const targetPath = './src/environments/environment.ts';
 
 const envConfigFile =
     `export const environment = {
-    DB_USER: '${process.env.DB_USER}',
-    DB_PASSWORD: '${process.env.DB_PASSWORD}',
     production: ${process.env.PRODUCTION}
 };
 `;
