@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs'; // TO DO: Remove when fetching models from real database
+import { Observable } from 'rxjs';
 import { Model } from '../app/model';
 import { MockDB } from './model-mock';
 
@@ -9,15 +10,15 @@ import { MockDB } from './model-mock';
 export class ModelService {
     private mockDb = MockDB.data;
 
-    constructor() {
+    constructor(private http: HttpClient) {
         // empty
     }
 
     public getModels(): Observable<Model[]> {
-        return of(this.mockDb);
+        return this.http.get<Model[]>('http://localhost:3000/models');
     }
 
     public getModel(id: number): Observable<Model> {
-        return of(this.mockDb.find(m => m.id === id));
+        return this.http.get<Model>(`http://localhost:3000/model/${id}`);
     }
 }

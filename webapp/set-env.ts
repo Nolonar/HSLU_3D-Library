@@ -8,6 +8,7 @@ const envConfigFile =
     `export const environment = {
     DB_USER: '${process.env.DB_USER}',
     DB_PASSWORD: '${process.env.DB_PASSWORD}',
+    DB_DOMAIN: '${process.env.DB_DOMAIN}',
     production: ${process.env.PRODUCTION}
 };
 `;

@@ -1,5 +1,5 @@
 export class Model {
-    id: number;
+    _id: number;
     name: string;
     modelFilename: string;
     previewFilename: string;
