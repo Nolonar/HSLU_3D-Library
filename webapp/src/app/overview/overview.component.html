@@ -1,7 +1,7 @@
 <div class='dashboard'>
     <div *ngFor="let model of models" class='panel shadow'>
         <a routerLink="/detail/{{model.id}}">
-            <div class='title'>
+            <div class='titlebar'>
                 <h2>{{model.name}}</h2>
             </div>
             <img src="/assets/images/{{model.previewFilename}}" alt='{{model.name}} preview'>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faFileDownload, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Model } from '../model';
 import { ModelService } from '../model.service';
 
@@ -12,6 +12,8 @@ import { ModelService } from '../model.service';
 export class DetailComponent implements OnInit {
     model: Model;
     faDownload = faFileDownload;
+    faUser = faUser;
+    faDate = faClock;
 
     constructor(private route: ActivatedRoute, private modelService: ModelService) { }
 

@@ -11,6 +11,38 @@ body {
     display: none !important;
 }
 
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.infobar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titlebar {
+    height: 30pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel {
+    width: fit-content;
+    height: fit-content;
+    margin: 15pt;
+    padding-left: 3pt;
+    padding-right: 3pt;
+    /* padding-bottom: 3pt; */
+    border-radius: 3pt;
+    background-color: #f0f0f0;
+    align-items: center;
+    text-align: center;
+}
+
 .shadow {
     box-shadow: 0 0 0 0 #dddddd;
     transition: box-shadow 0.1s ease-in-out;
@@ -27,6 +59,15 @@ body {
     background-color: #f7f7f7;
     border: 2px solid #cccccc;
     cursor: pointer;
+    color: #666666;
+    width: fit-content;
+    height: fit-content;
+    font-size: medium;
+}
+
+.info {
+    margin: 5pt;
+    padding: 5pt 10pt;
     color: #666666;
     width: fit-content;
     height: fit-content;

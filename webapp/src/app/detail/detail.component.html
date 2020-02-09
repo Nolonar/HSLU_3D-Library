@@ -1,13 +1,24 @@
-<div *ngIf='model; else noModel'>
-    <h2>{{model.name}}</h2>
-    <div id="uploader">Uploaded by {{model.uploaderId}} on {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
-    </div>
-    <app-viewer [filename]="model.modelFilename"></app-viewer>
-    <a href="/assets/models/{{model.modelFilename}}">
-        <div class="button">
-            <fa-icon [icon]="faDownload"></fa-icon> Download (.{{model.modelFilename | fileExtension}})
+<div *ngIf='model; else noModel' class='dashboard'>
+    <div class='panel'>
+        <div class='titlebar'>
+            <h2>{{model.name}}</h2>
         </div>
-    </a>
+        <app-viewer [filename]="model.modelFilename"></app-viewer>
+        <div class='infobar'>
+            <div class="info">
+                <fa-icon [icon]="faUser"></fa-icon> Uploaded by {{model.uploaderId}}
+            </div>
+            <div class="info">
+                <fa-icon [icon]="faDate"></fa-icon> Published on
+                {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
+            </div>
+            <a href="/assets/models/{{model.modelFilename}}">
+                <div class="button">
+                    <fa-icon [icon]="faDownload"></fa-icon> Download (.{{model.modelFilename | fileExtension}})
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 <ng-template #noModel>
     <app-not-found></app-not-found>

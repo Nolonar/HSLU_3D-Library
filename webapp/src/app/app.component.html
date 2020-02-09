@@ -1,13 +1,20 @@
-<div id='banner'>
-    <h1 id='title'>
+<div id='banner' class='infobar'>
+    <div class='left'>
+        <!-- left -->
+    </div>
+    <h1>
+        <!-- center -->
         <img id='logo' src="/assets/videos/cube.gif">
         {{title}}
     </h1>
-    <button class='button'>
-        <fa-icon [icon]="faSignIn"></fa-icon> Login
-    </button>
-    <button class='button'>
-        <fa-icon [icon]="faUpload"></fa-icon> Upload
-    </button>
+    <div>
+        <!-- right -->
+        <button class='button'>
+            <fa-icon [icon]="faSignIn"></fa-icon> Login
+        </button>
+        <button class='button'>
+            <fa-icon [icon]="faUpload"></fa-icon> Upload
+        </button>
+    </div>
 </div>
 <router-outlet></router-outlet>

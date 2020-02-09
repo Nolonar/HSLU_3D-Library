@@ -1,29 +1,3 @@
-.dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.panel {
-    width: fit-content;
-    height: fit-content;
-    margin: 15pt;
-    padding-left: 3pt;
-    padding-right: 3pt;
-    border-radius: 3pt;
-    /* padding-bottom: 3pt; */
-    background-color: #f0f0f0;
-    align-items: center;
-    text-align: center;
-}
-
-.title {
-    height: 30pt;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .panel img {
     background-color: #ffffff;
     width: 280pt;

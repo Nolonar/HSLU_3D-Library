@@ -1,10 +1,4 @@
-.dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.panel {
+.oops {
     height: 500pt;
     width: fit-content;
     padding: 10pt;
