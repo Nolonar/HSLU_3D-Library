@@ -24,8 +24,6 @@ job_lint:
   script:
     - echo start job_lint...
     - npm run lint
-    - apk add --update curl && rm -rf /var/cache/apk/*
-    - curl ipconfig.io
 
 job_karma:
   stage: test
