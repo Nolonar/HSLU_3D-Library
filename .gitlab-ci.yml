@@ -35,5 +35,5 @@ job_e2e:
   stage: test
   script:
     - echo start job_e2e...
-    - webdriver-manager update
+    - node ./node_modules/webdriver-manager/ update
     - npm run e2e
