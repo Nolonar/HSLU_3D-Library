@@ -7,3 +7,9 @@
     justify-content: center;
     font-size: large;
 }
+
+#logo {
+    height: 40pt;
+    margin: 5pt;
+    vertical-align: middle;
+}
