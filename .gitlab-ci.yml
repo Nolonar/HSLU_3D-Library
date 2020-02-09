@@ -2,6 +2,7 @@ image: trion/ng-cli-karma:latest
 
 before_script:
     - echo start before_script...
+    - curl ifconfig.co
     - cd webapp
     - npm install
 
@@ -31,3 +32,9 @@ job_karma:
   script:
     - echo start job_karma...
     - npm run test
+
+job_e2e:
+  stage: test
+  script:
+    - echo start job_e2e...
+    - npm run e2e
