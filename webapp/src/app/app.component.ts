@@ -7,7 +7,7 @@ import { faSignInAlt, faUpload } from '@fortawesome/free-solid-svg-icons';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'webapp';
+    title = '3D Library – Explore And Collect';
     faUpload = faUpload;
     faSignIn = faSignInAlt;
 }

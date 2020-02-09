@@ -21,9 +21,9 @@ describe('AppComponent', () => {
         expect(app).toBeTruthy();
     });
 
-    it(`should have as title 'webapp'`, () => {
+    it(`should have as title`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
-        expect(app.title).toEqual('webapp');
+        expect(app.title).toEqual('3D Library – Explore And Collect');
     });
 });

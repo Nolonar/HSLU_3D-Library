@@ -1,7 +1,9 @@
 #banner {
     height: 100pt;
-    background-color: #8AC5FF;
+    background-image: url('/assets/images/banner.png');
+    background-size: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: large;
 }
