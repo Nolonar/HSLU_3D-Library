@@ -173,7 +173,6 @@ export class ViewerComponent implements OnInit {
 
         this.mixer.stopAllAction();
         this.mixer.clipAction(model.currentAnimation).play();
-        this.normalizeModelSize(this.model);
     }
 
     private animate(timestamp: number) {
