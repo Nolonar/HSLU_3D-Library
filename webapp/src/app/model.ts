@@ -1,8 +1,9 @@
 export class Model {
     '_id': number;
     name: string;
-    modelFilename: string;
-    previewFilename: string;
+    filename: string;
+    filetype: string;
+    thumbnail: string;
     creationDate: Date;
     uploaderId: number;
 }

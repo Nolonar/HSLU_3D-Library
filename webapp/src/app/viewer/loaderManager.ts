@@ -1,7 +1,6 @@
 import { Object3D } from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { StringHelper } from '../helpers';
 import { Model3D } from './model3d';
 
 export class LoaderManager {
@@ -15,12 +14,11 @@ export class LoaderManager {
         obj: (obj: Object3D) => new Model3D(obj)
     };
 
-    public static load(filename: string, callback: (model: Model3D) => void) {
+    public static load(filename: string, filetype: string, callback: (model: Model3D) => void) {
         const progressBar = document.getElementById('loading');
 
-        const extension = StringHelper.getFileExtension(filename);
-        const loader = this.loaders[extension];
-        const createModel = this.createModelFunctions[extension];
+        const loader = this.loaders[filetype];
+        const createModel = this.createModelFunctions[filetype];
 
         new loader().load(
             filename,

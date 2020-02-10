@@ -22,6 +22,7 @@ export class ModelService {
     }
 
     public getModels(): Observable<Model[]> {
+        console.log(`${this.url}/models`);
         return this.http.get<Model[]>(`${this.url}/models`);
     }
 
@@ -36,7 +37,7 @@ export class ModelService {
         return this.http.post<Model>(`${this.url}/upload`, formData, { headers });
     }
 
-    public getModelById(id: number): Observable<Model> {
+    public getModelById(id: string): Observable<Model> {
         return this.http.get<Model>(`${this.url}/model/${id}`);
     }
 }

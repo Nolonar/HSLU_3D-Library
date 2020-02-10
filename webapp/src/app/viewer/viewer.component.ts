@@ -16,6 +16,7 @@ export class ViewerComponent implements OnInit {
     };
 
     @Input() filename: string;
+    @Input() filetype: string;
 
     private renderer: WebGLRenderer;
     private scene: Scene;
@@ -43,7 +44,7 @@ export class ViewerComponent implements OnInit {
             this.setupScene();
             this.setupCamera();
             this.registerEventHandlers(this.renderer.domElement);
-            this.loadModel(`/assets/models/${this.filename}`);
+            this.loadModel(`/assets/models/${this.filename}`, this.filetype);
 
             requestAnimationFrame(this.animate.bind(this));
         } else {
@@ -127,8 +128,8 @@ export class ViewerComponent implements OnInit {
         };
     }
 
-    private loadModel(filename: string) {
-        LoaderManager.load(filename, (model: Model3D) => {
+    private loadModel(filename: string, filetype: string) {
+        LoaderManager.load(filename, filetype, (model: Model3D) => {
             this.model = model;
 
             this.normalizeModelSize(model);

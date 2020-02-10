@@ -64,13 +64,15 @@ app.use((req, res, next) => {
 });
 
 app.get('/models', async (req, res) => {
+    console.log('GET /models');
     console.log(await req.query);
     return await findWhere(res, req.query);
 });
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
-    return await findOneWhere(res, { '_id': +modelId });
+    console.log('GET /model/' + modelId);
+    return await findOneWhere(res, { '_id': ObjectId.createFromHexString(`${modelId}`) });
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
