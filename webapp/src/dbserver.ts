@@ -11,7 +11,6 @@ const frontendDomain = 'http://localhost:4200';
  */
 
 require('dotenv').load();
-import { StringHelper } from './app/helpers';
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 const ObjectId = mongo.ObjectId;
@@ -80,7 +79,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const toInsert = {
         name: req.body['name'],
         filename: req.file['filename'],
-        filetype: StringHelper.getFileExtension(req.file['originalname']),
+        filetype: req.file['originalname'].split('.').pop(),
         thumbnail: 'placeholder', // TODO: generate thumbnail
         creationDate: new Date(),
         uploaderId: '1'
