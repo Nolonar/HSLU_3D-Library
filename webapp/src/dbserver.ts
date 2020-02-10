@@ -66,13 +66,15 @@ app.use((req, res, next) => {
 app.get('/models', async (req, res) => {
     console.log('GET /models');
     console.log(await req.query);
-    return await findWhere(res, req.query);
+
+    sendResponse(res, async () => await findWhere(req.query));
 });
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
     console.log('GET /model/' + modelId);
-    return await findOneWhere(res, { '_id': ObjectId.createFromHexString(`${modelId}`) });
+
+    sendResponse(res, async () => await findOneWhere({ '_id': ObjectId.createFromHexString(`${modelId}`) }));
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
@@ -92,16 +94,22 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
 });
 
-async function findWhere(res, query) {
-    const collection = await getModelsCollection();
-    const models = await collection.find(query).toArray();
-    res.json(models);
+async function sendResponse(res, getResponse) {
+    try {
+        res.json(await getResponse());
+    } catch {
+        res.json(null);
+    }
 }
 
-async function findOneWhere(res, query) {
+async function findWhere(query) {
     const collection = await getModelsCollection();
-    const model = await collection.findOne(query);
-    res.json(model);
+    return await collection.find(query).toArray();
+}
+
+async function findOneWhere(query) {
+    const collection = await getModelsCollection();
+    return await collection.findOne(query);
 }
 
 const server = app.listen(3000, () => {
