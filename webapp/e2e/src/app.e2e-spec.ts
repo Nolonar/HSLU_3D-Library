@@ -5,7 +5,7 @@ describe('workspace-project App', () => {
     let page: AppPage;
 
     beforeEach(async () => {
-        page = new AppPage();
+        page = await new AppPage();
     });
 
     it('test banner', async () => {
@@ -19,8 +19,8 @@ describe('workspace-project App', () => {
     });
 
     xit('test detailview', async () => {
-        await page.navigateTo('/detail/1');
-        await expect(await page.getTitlebarText()).toEqual('Bee 1');
+        await page.navigateTo('/detail/2');
+        await expect(await page.getTitlebarText()).toEqual('Bee');
     });
 
     it('test 404 page', async () => {

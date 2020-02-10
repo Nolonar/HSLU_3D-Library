@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ViewerComponent } from './viewer.component';
 
@@ -6,26 +7,27 @@ describe('ViewerComponent', () => {
     let component: ViewerComponent;
     let fixture: ComponentFixture<ViewerComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             declarations: [
                 ViewerComponent
             ],
             imports: [
-                RouterTestingModule
+                RouterTestingModule,
+                HttpClientTestingModule
             ],
         })
             .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ViewerComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
     });
 
-    it('should create', () => {
-        console.log('ViewerComponent: ' + component);
+    beforeEach(async () => {
+        fixture = await TestBed.createComponent(ViewerComponent);
+        component = await fixture.componentInstance;
+        await fixture.detectChanges();
+    });
+
+    it('should create', async () => {
+        console.log('ViewerComponent: ' + await component);
         expect(component).toBeTruthy();
     });
 });

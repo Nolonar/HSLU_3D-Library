@@ -1,11 +1,20 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { ModelService } from './model.service';
 
 describe('ModelService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+    beforeEach(async () =>
+        await TestBed.configureTestingModule({
+            imports: [
+                HttpClientModule
+            ],
+            providers: [
+                ModelService
+            ]
+        }));
 
-    it('should be created', () => {
-        const service: ModelService = TestBed.inject(ModelService);
+    it('should be created', async () => {
+        const service: ModelService = await TestBed.inject(ModelService);
         expect(service).toBeTruthy();
     });
 });
