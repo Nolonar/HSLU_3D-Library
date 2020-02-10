@@ -21,13 +21,13 @@ describe('DetailComponent', () => {
     });
 
     beforeEach(async () => {
-        fixture = await TestBed.createComponent(DetailComponent);
-        component = await fixture.componentInstance;
-        await fixture.detectChanges();
+        fixture = TestBed.createComponent(DetailComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it('should create', async () => {
-        console.log('DetailComponent: ' + await component);
+        console.log('DetailComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

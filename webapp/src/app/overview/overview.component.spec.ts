@@ -21,13 +21,13 @@ describe('OverviewComponent', () => {
     });
 
     beforeEach(async () => {
-        fixture = await TestBed.createComponent(OverviewComponent);
-        component = await fixture.componentInstance;
-        await fixture.detectChanges();
+        fixture = TestBed.createComponent(OverviewComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it('should create', async () => {
-        console.log('OverviewComponent: ' + await component);
+        console.log('OverviewComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

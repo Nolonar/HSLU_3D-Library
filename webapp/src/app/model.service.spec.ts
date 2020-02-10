@@ -4,7 +4,7 @@ import { ModelService } from './model.service';
 
 describe('ModelService', () => {
     beforeEach(async () =>
-        await TestBed.configureTestingModule({
+        TestBed.configureTestingModule({
             imports: [
                 HttpClientModule
             ],
@@ -14,7 +14,7 @@ describe('ModelService', () => {
         }));
 
     it('should be created', async () => {
-        const service: ModelService = await TestBed.inject(ModelService);
+        const service: ModelService = TestBed.inject(ModelService);
         expect(service).toBeTruthy();
     });
 });

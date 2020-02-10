@@ -21,13 +21,13 @@ describe('ViewerComponent', () => {
     });
 
     beforeEach(async () => {
-        fixture = await TestBed.createComponent(ViewerComponent);
-        component = await fixture.componentInstance;
-        await fixture.detectChanges();
+        fixture = TestBed.createComponent(ViewerComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it('should create', async () => {
-        console.log('ViewerComponent: ' + await component);
+        console.log('ViewerComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

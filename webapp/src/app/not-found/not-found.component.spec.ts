@@ -21,13 +21,13 @@ describe('NotFoundComponent', () => {
     });
 
     beforeEach(async () => {
-        fixture = await TestBed.createComponent(NotFoundComponent);
-        component = await fixture.componentInstance;
-        await fixture.detectChanges();
+        fixture = TestBed.createComponent(NotFoundComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it('should create', async () => {
-        console.log('NotFoundComponent: ' + await component);
+        console.log('NotFoundComponent: ' + component);
         expect(component).toBeTruthy();
     });
 });

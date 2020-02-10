@@ -17,14 +17,14 @@ describe('AppComponent', () => {
     });
 
     it('should create the app', async () => {
-        const fixture = await TestBed.createComponent(AppComponent);
+        const fixture = TestBed.createComponent(AppComponent);
         const app = await fixture.debugElement.componentInstance;
         console.log('AppComponent: ' + await app);
         expect(app).toBeTruthy();
     });
 
     it(`should have a title`, async () => {
-        const fixture = await TestBed.createComponent(AppComponent);
+        const fixture = TestBed.createComponent(AppComponent);
         const app = await fixture.debugElement.componentInstance;
         expect(app.title).toEqual('3D Library – Explore And Collect');
     });
