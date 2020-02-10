@@ -12,7 +12,7 @@
                 <fa-icon [icon]="faDate"></fa-icon> Published on
                 {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
             </div>
-            <a class="button" href="/assets/models/{{model.modelFilename}}">
+            <a class="button" href="/assets/models/{{model.modelFilename}}" download>
                 <div>
                     <fa-icon [icon]="faDownload"></fa-icon>
                     Download (.{{model.modelFilename | fileExtension}})
