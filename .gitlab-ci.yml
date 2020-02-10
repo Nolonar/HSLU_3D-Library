@@ -38,6 +38,7 @@ job_e2e:
     - node ./node_modules/webdriver-manager/ update
     - node src/dbserver.ts & npm run e2e
 
+
 include:
   - template: License-Scanning.gitlab-ci.yml
 
