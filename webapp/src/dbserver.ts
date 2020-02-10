@@ -55,6 +55,7 @@ async function getModelsCollection() {
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', frontendDomain);
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
 
@@ -71,7 +72,16 @@ app.get('/model/:modelId', async (req, res) => {
 });
 
 app.post('/upload', async (req, res) => {
-    console.log('upload' + req);
+    console.log('POST /upload')
+    console.log(req.body);
+    res.json({
+        '_id': 5,
+        name: 'test',
+        modelFilename: 'test.glb',
+        previewFilename: 'test.png',
+        creationDate: new Date(),
+        uploaderId: 1
+    });
 });
 
 async function findWhere(res, query) {
