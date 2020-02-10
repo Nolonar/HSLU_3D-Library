@@ -58,7 +58,7 @@ body {
     padding: 5pt 10pt;
     border-radius: 3pt;
     background-color: #f7f7f7;
-    border: 2px solid #cccccc;
+    border: thin solid #cccccc;
     cursor: pointer;
     color: #666666;
     width: fit-content;

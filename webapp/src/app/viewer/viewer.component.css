@@ -34,4 +34,5 @@
 ::ng-deep #viewport > canvas {
     max-width: 100%;
     height: auto !important; /* needed because threejs uses element styling for width/height */
+    border-radius: 3pt;
 }

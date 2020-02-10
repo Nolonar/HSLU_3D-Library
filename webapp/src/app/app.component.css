@@ -3,6 +3,7 @@
     background-image: url('/assets/images/banner.png');
     background-size: 100%;
     font-size: large;
+    border-bottom: thin solid #cccccc;
 }
 
 #logo {
