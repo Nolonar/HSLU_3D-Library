@@ -19,8 +19,8 @@ describe('workspace-project App', () => {
     });
 
     xit('test detailview', async () => {
-        await page.navigateTo('/detail/1');
-        await expect(await page.getTitlebarText()).toEqual('Bee 1');
+        await page.navigateTo('/detail/2');
+        await expect(await page.getTitlebarText()).toEqual('Bee');
     });
 
     it('test 404 page', async () => {
