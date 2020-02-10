@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ModelUpload } from '../model';
 import { ModelService } from '../model.service';
 
@@ -10,6 +11,7 @@ import { ModelService } from '../model.service';
 })
 export class UploadFormComponent implements OnInit {
     public model = new ModelUpload();
+    faWarning = faExclamationTriangle;
 
     constructor(private modelService: ModelService, private location: Location) { }
 

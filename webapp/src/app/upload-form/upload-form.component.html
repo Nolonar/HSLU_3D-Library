@@ -1,22 +1,28 @@
-<h1>Upload</h1>
-<form id="uploadForm" #uploadForm="ngForm" (ngSubmit)="onSubmit($event)" method="POST">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" #name="ngModel" class="form-control" id="name" name="name" [(ngModel)]="model.name"
-            placeholder="Name of model to upload" required>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-            Name is required
+<div class='dashboard'>
+    <div class='panel'>
+        <div class='titlebar'>
+            <h2>Upload</h2>
         </div>
-    </div>
+        <form id="uploadForm" #uploadForm="ngForm" (ngSubmit)="onSubmit($event)" method="POST">
+            <div class='inputbar'>
+                <label for="name">Name:</label>
+                <input type="text" #name="ngModel" id="name" name="name" [(ngModel)]="model.name"
+                    placeholder="Name of model to upload" required>
+                <div [hidden]="name.valid || name.pristine" class="info alert">
+                    <fa-icon [icon]="faWarning"></fa-icon> Name is required!
+                </div>
+            </div>
 
-    <div class="form-group">
-        <label for="file">File</label>
-        <input type="file" #filename="ngModel" class="form-control" id="file" name="filename"
-            (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename" accept=".glb,.obj" required>
-        <div [hidden]="filename.valid || filename.pristine" class="alert alert-danger">
-            File is required
-        </div>
+            <div class='inputbar'>
+                <label for="file">File:</label>
+                <input type="file" #filename="ngModel" id="file" name="filename"
+                    (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename" accept=".glb,.obj"
+                    required>
+                <div [hidden]="filename.valid || filename.pristine" class="info alert">
+                    <fa-icon [icon]="faWarning"></fa-icon> File is required!
+                </div>
+            </div>
+            <button type="submit" class="button" [disabled]="!uploadForm.form.valid">Submit</button>
+        </form>
     </div>
-
-    <button type="submit" class="btn btn-success" [disabled]="!uploadForm.form.valid">Submit</button>
-</form>
+</div>

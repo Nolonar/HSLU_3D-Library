@@ -34,9 +34,7 @@ body {
     width: fit-content;
     height: fit-content;
     margin: 15pt;
-    padding-left: 3pt;
-    padding-right: 3pt;
-    /* padding-bottom: 3pt; */
+    padding: 3pt;
     border-radius: 3pt;
     background-color: #f0f0f0;
     align-items: center;
@@ -49,7 +47,7 @@ body {
 }
 
 .shadow:hover {
-    box-shadow: 0 0 9px 6px #dddddd;
+    box-shadow: 0 0 6pt 4pt #dddddd;
 }
 
 .button {
@@ -98,5 +96,5 @@ a:hover {
 }
 
 a:active {
-    text-decoration: underline;
+    text-decoration: none;
 }
