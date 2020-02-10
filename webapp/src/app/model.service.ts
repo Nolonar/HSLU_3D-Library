@@ -29,7 +29,7 @@ export class ModelService {
         return this.http.get<Model>(`${this.url}/model/${id}`);
     }
 
-    public postModel(model: ModelUpload): Observable<any> {
-        return this.http.post<ModelUpload>(`${this.url}/upload`, model);
+    public postModel(model: ModelUpload): Observable<Model> {
+        return this.http.post<Model>(`${this.url}/upload`, model);
     }
 }

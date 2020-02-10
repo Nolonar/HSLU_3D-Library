@@ -13,6 +13,7 @@ export class UploadFormComponent implements OnInit {
     constructor(private modelService: ModelService) { }
 
     ngOnInit(): void {
+        // empty
     }
 
     public onSubmit(event) {
