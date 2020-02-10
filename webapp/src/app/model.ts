@@ -6,3 +6,8 @@ export class Model {
     creationDate: Date;
     uploaderId: number;
 }
+
+export class ModelUpload {
+    name: string;
+    file: File;
+}

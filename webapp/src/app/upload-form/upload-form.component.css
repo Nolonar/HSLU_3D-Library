@@ -1,0 +1,12 @@
+input[type="file"] {
+    border: thin solid black;
+}
+
+.ng-valid[required]:not(.ng-pristine),
+.ng-valid.required:not(.ng-pristine) {
+    border-right: 5px solid #42A948;
+}
+
+.ng-invalid:not(form):not(.ng-pristine) {
+    border-right: 5px solid #a94442;
+}

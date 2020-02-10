@@ -14,9 +14,11 @@
         <button class='button'>
             <fa-icon [icon]="faSignIn"></fa-icon> Login
         </button>
-        <button class='button'>
-            <fa-icon [icon]="faUpload"></fa-icon> Upload
-        </button>
+        <a class="button" routerLink="/upload">
+            <div>
+                <fa-icon [icon]="faUpload"></fa-icon> Upload
+            </div>
+        </a>
     </div>
 </div>
 <router-outlet></router-outlet>

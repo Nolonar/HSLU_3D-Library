@@ -53,6 +53,7 @@ body {
 }
 
 .button {
+    display: inline-block;
     margin: 5pt;
     padding: 5pt 10pt;
     border-radius: 3pt;
