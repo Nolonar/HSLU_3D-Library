@@ -12,7 +12,8 @@ const frontendDomain = 'http://localhost:4200';
 
 require('dotenv').load();
 const MongoClient = require('mongodb').MongoClient;
-const app = require('express')();
+const express = require('express');
+const app = express();
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -37,12 +38,14 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.json());
+
 app.get('/models', async (req, res) => {
     console.log('GET /models');
 
     const collection = await getModelsCollection();
     const allModels = await collection.find({}).toArray();
-    res.send(JSON.stringify(allModels));
+    res.json(allModels);
 });
 
 app.get('/model/:modelId', async (req, res) => {
@@ -51,7 +54,12 @@ app.get('/model/:modelId', async (req, res) => {
 
     const collection = await getModelsCollection();
     const model = await collection.findOne({ '_id': +modelId });
-    res.send(JSON.stringify(model));
+    res.json(model);
+});
+
+app.post('/upload', async (req, res) => {
+    console.log('POST /upload')
+    console.log(req);
 });
 
 const server = app.listen(3000, () => {
