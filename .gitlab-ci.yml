@@ -29,13 +29,11 @@ job_karma:
   stage: test
   script:
     - echo start job_karma...
-    - cd src
-    - node dbserver.js & npm run test
+    - node src/dbserver.js & npm run test
 
 job_e2e:
   stage: test
   script:
     - echo start job_e2e...
     - node ./node_modules/webdriver-manager/ update
-    - cd src
-    - node dbserver.js & npm run e2e
+    - node src/dbserver.js & npm run e2e

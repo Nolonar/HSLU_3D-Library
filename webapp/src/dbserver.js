@@ -10,7 +10,7 @@ const frontendDomain = 'http://localhost:4200';
  * Remeber to edit frontendDomain for CORS (Cross-Origin Ressource Sharing).
  */
 
-require('dotenv').config({ path: '../.env' });
+require('dotenv').load();
 const MongoClient = require('mongodb').MongoClient;
 const app = require('express')();
 
