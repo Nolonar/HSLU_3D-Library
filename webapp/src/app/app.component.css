@@ -1,4 +1,6 @@
 #banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     height: 100pt;
     background-image: url('/assets/images/banner.png');
     background-size: 100%;
@@ -6,17 +8,18 @@
     border-bottom: thin solid #cccccc;
 }
 
+#banner > a {
+    grid-column-start: 2;
+    place-self: center center;
+}
+
 #banner > div {
-    align-self: flex-end;
+    grid-column-start: 3;
+    place-self: end end;
 }
 
 #logo {
     height: 40pt;
     margin: 5pt;
     vertical-align: middle;
-}
-
-.left {
-    /* workaround */
-    width: 150pt;
 }
