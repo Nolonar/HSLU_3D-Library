@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UploadFormComponent } from './upload-form.component';
 
-
 describe('UploadFormComponent', () => {
   let component: UploadFormComponent;
   let fixture: ComponentFixture<UploadFormComponent>;
