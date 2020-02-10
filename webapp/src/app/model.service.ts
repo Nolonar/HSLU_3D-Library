@@ -33,4 +33,3 @@ export class ModelService {
         return this.http.get<Model>(`${this.url}/model/${id}`);
     }
 }
-
