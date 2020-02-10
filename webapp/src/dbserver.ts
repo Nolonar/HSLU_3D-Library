@@ -71,7 +71,6 @@ app.get('/models', async (req, res) => {
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
-    console.log('GET /model/' + modelId);
     return await findOneWhere(res, { '_id': ObjectId.createFromHexString(`${modelId}`) });
 });
 

@@ -18,7 +18,7 @@ export class UploadFormComponent implements OnInit {
 
     public onSubmit(event) {
         this.modelService.postModel(this.model).subscribe(data => {
-            console.log(data);
+            console.log('data' + data);
         });
     }
 
