@@ -18,6 +18,7 @@ const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
 const dbDomain = process.env.DB_DOMAIN;
 let propertiesAvailable = true;
+let client;
 
 if (!dbUser) {
     console.warn(`Environment property 'DB_USER' is missing: `);
@@ -34,7 +35,7 @@ if (!dbDomain) {
 if (propertiesAvailable) {
     console.log(`starting db server...`);
     // Opening a connection takes time, so we only do it once when the server starts, and never close it.
-    let client = MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@${dbDomain}/test?retryWrites=true&w=majority`, {
+    client = MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@${dbDomain}/test?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
