@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { DetailComponent } from './detail/detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { OverviewComponent } from './overview/overview.component';
-import { FileExtensionPipe } from './pipes';
 import { UploadFormComponent } from './upload-form/upload-form.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
@@ -19,7 +18,6 @@ import { ViewerComponent } from './viewer/viewer.component';
         OverviewComponent,
         NotFoundComponent,
         ViewerComponent,
-        FileExtensionPipe,
         UploadFormComponent
     ],
     imports: [
