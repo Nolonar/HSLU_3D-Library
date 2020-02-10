@@ -22,7 +22,6 @@ export class ModelService {
     }
 
     public getModels(): Observable<Model[]> {
-        console.log(`${this.url}/models`);
         return this.http.get<Model[]>(`${this.url}/models`);
     }
 

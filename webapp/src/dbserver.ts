@@ -65,15 +65,11 @@ app.use((req, res, next) => {
 
 app.get('/models', async (req, res) => {
     console.log('GET /models');
-    console.log(await req.query);
-
     sendResponse(res, async () => await findWhere(req.query));
 });
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
-    console.log('GET /model/' + modelId);
-
     sendResponse(res, async () => await findOneWhere({ '_id': ObjectId.createFromHexString(`${modelId}`) }));
 });
 
@@ -84,7 +80,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         name: req.body['name'],
         filename: req.file['filename'],
         filetype: req.file['originalname'].split('.').pop(),
-        thumbnail: 'placeholder', // TODO: generate thumbnail
+        thumbnail: 'placeholder.png', // TODO: generate thumbnail
         creationDate: new Date(),
         uploaderId: '1'
     };

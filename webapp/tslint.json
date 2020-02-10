@@ -175,7 +175,7 @@
         "no-any": true,
         "no-arg": true,
         "no-bitwise": true,
-        "no-floating-promises": false,
+        "no-floating-promises": true,
         "no-var-keyword": true,
         "no-construct": true,
         "no-debugger": true,
