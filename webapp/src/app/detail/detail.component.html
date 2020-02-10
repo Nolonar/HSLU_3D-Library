@@ -1,4 +1,4 @@
-<div *ngIf='model; else noModel' class='dashboard'>
+<div *ngIf='model' class='dashboard'>
     <div class='panel'>
         <div class='titlebar'>
             <h2>{{model.name}}</h2>
@@ -21,6 +21,3 @@
         </div>
     </div>
 </div>
-<ng-template #noModel>
-    <app-not-found></app-not-found>
-</ng-template>

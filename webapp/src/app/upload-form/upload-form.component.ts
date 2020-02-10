@@ -19,6 +19,7 @@ export class UploadFormComponent implements OnInit {
 
     public onSubmit(event) {
         this.modelService.postModel(this.model).subscribe(uploaded => {
+            // Need to use location (instead of router), otherwise browser will not send "_id" to dbserver.
             this.location.go(`/detail/${uploaded._id}`);
         });
     }

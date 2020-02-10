@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faClock, faFileDownload, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Model } from '../model';
 import { ModelService } from '../model.service';
@@ -15,7 +15,7 @@ export class DetailComponent implements OnInit {
     faUser = faUser;
     faDate = faClock;
 
-    constructor(private route: ActivatedRoute, private modelService: ModelService) { }
+    constructor(private router: Router, private route: ActivatedRoute, private modelService: ModelService) { }
 
     ngOnInit() {
         this.getModel();
@@ -23,6 +23,12 @@ export class DetailComponent implements OnInit {
 
     getModel() {
         const id = this.route.snapshot.paramMap.get('id');
-        this.modelService.getModelById(id).subscribe(m => this.model = m);
+        this.modelService.getModelById(id).subscribe(m => {
+            if (!m) {
+                // Need to use router (instead of location), otherwise 404 will return an empty page.
+                this.router.navigateByUrl('/404');
+            }
+            this.model = m;
+        });
     }
 }
