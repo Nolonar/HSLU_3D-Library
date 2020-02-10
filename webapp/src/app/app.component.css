@@ -6,6 +6,10 @@
     border-bottom: thin solid #cccccc;
 }
 
+#banner > div {
+    align-self: flex-end;
+}
+
 #logo {
     height: 40pt;
     margin: 5pt;
