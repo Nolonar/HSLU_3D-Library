@@ -2,7 +2,7 @@ const frontendDomain = 'http://localhost:4200';
 
 /**
  * How to use:
- * $ node dbserver.js
+ * $ node dbserver.ts
  * 
  * Since this is backend only, must be run BEFORE the frontend (ng serve).
  * Otherwise, frontend will receive no data from database.
@@ -11,9 +11,13 @@ const frontendDomain = 'http://localhost:4200';
  */
 
 require('dotenv').load();
-const MongoClient = require('mongodb').MongoClient;
+const mongo = require('mongodb');
+const MongoClient = mongo.MongoClient;
+const ObjectId = mongo.ObjectId;
 const express = require('express');
 const app = express();
+const multer = require('multer');
+const upload = multer({ dest: 'src/assets/models/' });
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -59,8 +63,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json());
-
 app.get('/models', async (req, res) => {
     console.log(await req.query);
     return await findWhere(res, req.query);
@@ -71,17 +73,20 @@ app.get('/model/:modelId', async (req, res) => {
     return await findOneWhere(res, { '_id': +modelId });
 });
 
-app.post('/upload', async (req, res) => {
-    console.log('POST /upload')
-    console.log(req.body);
-    res.json({
-        '_id': 5,
-        name: 'test',
-        modelFilename: 'test.glb',
-        previewFilename: 'test.png',
+app.post('/upload', upload.single('file'), async (req, res) => {
+    console.log('POST /upload');
+
+    const toInsert = {
+        name: req.body['name'],
+        filename: req.file['filename'],
+        thumbnail: 'placeholder', // TODO: generate thumbnail
         creationDate: new Date(),
-        uploaderId: 1
-    });
+        uploaderId: '1'
+    };
+
+    const collection = await getModelsCollection();
+    const result = await collection.insertOne(toInsert);
+    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
 });
 
 async function findWhere(res, query) {

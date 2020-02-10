@@ -10,6 +10,10 @@ import { Model3D } from './model3d';
 })
 export class ViewerComponent implements OnInit {
     private readonly rendererBackgroundColor = 0xa4f4ff;
+    private readonly rendererResolution = {
+        width: window.innerWidth / 2,
+        height: window.innerHeight / 2
+    };
 
     @Input() filename: string;
 
@@ -49,9 +53,7 @@ export class ViewerComponent implements OnInit {
 
     private createRenderer(): WebGLRenderer {
         const renderer = new WebGLRenderer();
-        const width = 800;
-        const height = 450;
-        renderer.setSize(width, height);
+        renderer.setSize(this.rendererResolution.width, this.rendererResolution.height);
         renderer.setClearColor(0x000000);
         return renderer;
     }
@@ -68,7 +70,7 @@ export class ViewerComponent implements OnInit {
 
     private setupCamera() {
         const fov = 75;
-        const aspectRatio = 16 / 9;
+        const aspectRatio = this.rendererResolution.width / this.rendererResolution.height;
         const near = 0.1;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);

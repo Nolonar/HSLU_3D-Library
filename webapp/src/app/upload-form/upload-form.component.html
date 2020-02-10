@@ -11,8 +11,9 @@
 
     <div class="form-group">
         <label for="file">File</label>
-        <input type="file" #file="ngModel" class="form-control" id="file" name="file" [(ngModel)]="model.file" required>
-        <div [hidden]="file.valid || file.pristine" class="alert alert-danger">
+        <input type="file" #filename="ngModel" class="form-control" id="file" name="filename"
+            (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename" accept=".glb,.obj" required>
+        <div [hidden]="filename.valid || filename.pristine" class="alert alert-danger">
             File is required
         </div>
     </div>

@@ -9,5 +9,6 @@ export class Model {
 
 export class ModelUpload {
     name: string;
+    filename: string;
     file: File;
 }

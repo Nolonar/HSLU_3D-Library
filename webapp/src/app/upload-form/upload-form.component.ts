@@ -21,4 +21,8 @@ export class UploadFormComponent implements OnInit {
             console.log(data);
         });
     }
+
+    public onFileChange(files: FileList) {
+        this.model.file = files[0];
+    }
 }
