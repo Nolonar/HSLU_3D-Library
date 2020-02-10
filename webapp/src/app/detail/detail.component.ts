@@ -23,6 +23,6 @@ export class DetailComponent implements OnInit {
 
     getModel() {
         const id = +this.route.snapshot.paramMap.get('id');
-        this.modelService.getModel(id).subscribe(m => this.model = m);
+        this.modelService.getModelById(id).subscribe(m => this.model = m);
     }
 }

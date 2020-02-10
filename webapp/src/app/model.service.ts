@@ -25,11 +25,12 @@ export class ModelService {
         return this.http.get<Model[]>(`${this.url}/models`);
     }
 
-    public getModel(id: number): Observable<Model> {
-        return this.http.get<Model>(`${this.url}/model/${id}`);
-    }
-
     public postModel(model: ModelUpload): Observable<Model> {
         return this.http.post<Model>(`${this.url}/upload`, model);
     }
+
+    public getModelById(id: number): Observable<Model> {
+        return this.http.get<Model>(`${this.url}/model/${id}`);
+    }
 }
+

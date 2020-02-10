@@ -61,22 +61,30 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.get('/models', async (req, res) => {
-    const collection = await getModelsCollection();
-    const allModels = await collection.find({}).toArray();
-    res.json(allModels);
+    console.log(await req.query);
+    return await findWhere(res, req.query);
 });
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
-    const collection = await getModelsCollection();
-    const model = await collection.findOne({ '_id': +modelId });
-    res.json(model);
+    return await findOneWhere(res, { '_id': +modelId });
 });
 
 app.post('/upload', async (req, res) => {
-    console.log('POST /upload')
-    console.log(req);
+    console.log('upload' + req);
 });
+
+async function findWhere(res, query) {
+    const collection = await getModelsCollection();
+    const models = await collection.find(query).toArray();
+    res.json(models);
+}
+
+async function findOneWhere(res, query) {
+    const collection = await getModelsCollection();
+    const model = await collection.findOne(query);
+    res.json(model);
+}
 
 const server = app.listen(3000, () => {
     console.log('Listening on port ' + server.address().port);
