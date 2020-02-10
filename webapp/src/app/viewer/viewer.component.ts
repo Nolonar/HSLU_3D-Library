@@ -9,7 +9,7 @@ import { Model3D } from './model3d';
     styleUrls: ['./viewer.component.css']
 })
 export class ViewerComponent implements OnInit {
-    private readonly rendererBackgroundColor = 0x4488cc;
+    private readonly rendererBackgroundColor = 0xa4f4ff;
 
     @Input() filename: string;
 

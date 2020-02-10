@@ -17,7 +17,6 @@ job_build:
   stage: build
   script:
     - echo start job_build...
-    - npm run env
     - npm run build
 
 job_lint:
@@ -31,3 +30,10 @@ job_karma:
   script:
     - echo start job_karma...
     - npm run test
+
+job_e2e:
+  stage: test
+  script:
+    - echo start job_e2e...
+    - node ./node_modules/webdriver-manager/ update
+    - npm run e2e

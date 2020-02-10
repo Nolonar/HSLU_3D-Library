@@ -2,7 +2,6 @@
     "name": "webapp",
     "version": "0.0.0",
     "scripts": {
-        "env": "ts-node set-env.ts",
         "start": "ng serve",
         "build": "ng build",
         "test": "ng test --watch=false --code-coverage",
@@ -28,6 +27,7 @@
         "rxjs": "^6.5.4",
         "three": "^0.113.2",
         "tslib": "^1.10.0",
+        "webdriver-manager": "^12.1.7",
         "zone.js": "^0.9.1"
     },
     "devDependencies": {
@@ -46,7 +46,7 @@
         "karma-coverage-istanbul-reporter": "^2.1.1",
         "karma-jasmine": "^2.0.1",
         "karma-jasmine-html-reporter": "^1.4.0",
-        "protractor": "^5.4.0",
+        "protractor": "^5.4.3",
         "ts-node": "^7.0.0",
         "tslint": "^6.0.0",
         "tslint-microsoft-contrib": "6.2.0",
