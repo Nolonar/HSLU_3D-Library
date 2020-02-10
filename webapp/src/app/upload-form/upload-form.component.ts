@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ModelUpload } from '../model';
 import { ModelService } from '../model.service';
@@ -10,15 +11,15 @@ import { ModelService } from '../model.service';
 export class UploadFormComponent implements OnInit {
     public model = new ModelUpload();
 
-    constructor(private modelService: ModelService) { }
+    constructor(private modelService: ModelService, private location: Location) { }
 
     ngOnInit(): void {
         // empty
     }
 
     public onSubmit(event) {
-        this.modelService.postModel(this.model).subscribe(data => {
-            console.log(data);
+        this.modelService.postModel(this.model).subscribe(uploaded => {
+            this.location.go(`/detail/${uploaded._id}`);
         });
     }
 
