@@ -40,3 +40,4 @@ job_e2e:
 
 include:
   - template: License-Scanning.gitlab-ci.yml
+
