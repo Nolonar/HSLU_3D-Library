@@ -28,7 +28,6 @@ export class LoaderManager {
             return;
         }
 
-
         new loader().load(
             filename,
             (obj) => {

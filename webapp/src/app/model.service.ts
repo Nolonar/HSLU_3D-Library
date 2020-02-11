@@ -28,7 +28,7 @@ export class ModelService {
 
     private createHttpParams(filter): HttpParams {
         let params = new HttpParams();
-        for (const key in filter) {
+        for (const key of Object.keys(filter)) {
             const value = filter[key];
             if (value) {
                 params = params.set(key, value);
