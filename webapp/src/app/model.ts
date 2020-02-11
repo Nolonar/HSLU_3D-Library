@@ -12,5 +12,5 @@ export class ModelUpload {
     name: string;
     filename: string;
     file: File;
-    thumbnailDataUrl: string
+    thumbnailDataUrl: string;
 }
