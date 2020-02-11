@@ -13,8 +13,8 @@ import { Model3D } from './model3d';
 })
 export class ViewerComponent implements OnInit {
     private readonly rendererDefaultResolution = { // Can be overriden by @Input.
-        width: window.innerWidth / 2,
-        height: window.innerHeight / 2
+        width: window.innerWidth,
+        height: window.innerHeight
     };
 
     @Input() filename: string;
@@ -149,7 +149,8 @@ export class ViewerComponent implements OnInit {
 
         const renderer = new WebGLRenderer({
             alpha: true,
-            preserveDrawingBuffer: this.isPreview
+            preserveDrawingBuffer: this.isPreview,
+            logarithmicDepthBuffer: true
         });
         renderer.setSize(resX, resY);
         renderer.setClearColor(0);
@@ -171,7 +172,7 @@ export class ViewerComponent implements OnInit {
     private setupCamera() {
         const fov = 75;
         const aspectRatio = this.aspectRatio;
-        const near = 0.1;
+        const near = 2;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);
         this.resetCameraZoom();
@@ -247,6 +248,7 @@ export class ViewerComponent implements OnInit {
 
     private normalizeModelSize(model: Model3D) {
         const size = new Vector3();
+        console.log(model);
         new Box3().setFromObject(model.mesh).getSize(size);
 
         const scale = 2 / Math.max(size.x, size.y);

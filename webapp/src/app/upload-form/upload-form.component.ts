@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ModelUpload } from '../model';
 import { ModelService } from '../model.service';
+import { LoaderManager } from '../viewer/loaderManager';
 import { ViewerComponent } from '../viewer/viewer.component';
 
 @Component({
@@ -21,6 +22,10 @@ export class UploadFormComponent implements OnInit {
 
     ngOnInit(): void {
         // empty
+    }
+
+    public get supportedTypes(): string {
+        return LoaderManager.supportedTypes.map(t => `.${t}`).join(',');
     }
 
     public onSubmit(event) {

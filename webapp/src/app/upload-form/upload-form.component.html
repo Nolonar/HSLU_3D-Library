@@ -16,8 +16,8 @@
             <div class='inputbar'>
                 <label for="file">File:</label>
                 <input type="file" #filename="ngModel" id="file" name="filename"
-                    (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename" accept=".glb,.obj"
-                    required>
+                    (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename"
+                    accept="{{supportedTypes}}" required>
                 <div [hidden]="filename.valid || filename.pristine" class="info alert">
                     <fa-icon [icon]="faWarning"></fa-icon> File is required!
                 </div>

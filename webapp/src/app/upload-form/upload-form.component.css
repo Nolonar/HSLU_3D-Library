@@ -38,3 +38,8 @@ label {
 .ng-invalid:not(form) {
     border-right: 5px solid #a94442;
 }
+
+/* pseudo-element to tell angular to apply style to dynamically generated element */
+::ng-deep #viewport > canvas {
+    width: 280pt !important;
+}
