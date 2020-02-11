@@ -15,12 +15,12 @@ describe('workspace-project App', () => {
 
     it('test overview', async () => {
         await page.navigateTo();
-        await expect(await page.getTitlebarText()).toEqual('Suzanne');
+        await expect(await page.getPanelTitlebarText()).toEqual('Suzanne');
     });
 
     xit('test detailview', async () => {
-        await page.navigateTo('/detail/2');
-        await expect(await page.getTitlebarText()).toEqual('Bee');
+        await page.navigateTo('/detail/5e418bd4163c761078f1cad7');
+        await expect(await page.getPanelTitlebarText()).toEqual('Bee');
     });
 
     it('test 404 page', async () => {

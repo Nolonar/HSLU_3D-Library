@@ -22,6 +22,10 @@ export class AppPage {
         return element(by.css('.titlebar')).getText();
     }
 
+    async getPanelTitlebarText(): Promise<string> {
+        return element(by.css('a .titlebar')).getText();
+    }
+
     async getInfoText(): Promise<string> {
         return element(by.css('.info')).getText();
     }
