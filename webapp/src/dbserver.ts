@@ -81,9 +81,11 @@ app.get('/model/:modelId', async (req, res) => {
 app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('POST /upload');
 
+    const filename = req.file['filename'];
+    saveImage(req.body['thumbnailDataUrl'], filename);
     const toInsert = {
         name: req.body['name'].trim(),
-        filename: req.file['filename'],
+        filename: filename,
         filetype: req.file['originalname'].split('.').pop(),
         creationDate: new Date(),
         uploaderId: '1'
@@ -91,17 +93,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     const collection = await getModelsCollection();
     const result = await collection.insertOne(toInsert);
-    const id = `${result.insertedId}`;
 
-    saveImage(req.body['thumbnailDataUrl'], id);
-
-    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(id) }));
+    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
 });
 
-function saveImage(dataUrl, id) {
+function saveImage(dataUrl, filename) {
     const data = dataUrl.replace(/^data:image\/\w+;base64,/, "");
     const buffer = Buffer.from(data, 'base64');
-    filesystem.writeFile(`src/assets/images/previews/${id}`, buffer, error => {
+    filesystem.writeFile(`src/assets/images/previews/${filename}`, buffer, error => {
         console.error(error);
     });
 }
