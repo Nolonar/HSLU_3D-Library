@@ -28,8 +28,20 @@ export class ViewerComponent implements OnInit {
 
     private previousTimeStamp = 0;
 
+    private get animationControls(): HTMLElement {
+        return document.getElementById('control-animations');
+    }
     private get animationSelect(): HTMLElement {
         return document.getElementById('animations');
+    }
+    private get viewport(): HTMLElement {
+        return document.getElementById('viewport');
+    }
+    private get progressBar(): HTMLElement {
+        return document.getElementById('loading');
+    }
+    private get errorMessage(): HTMLElement {
+        return document.getElementById('error-message');
     }
 
     constructor() {
@@ -39,7 +51,7 @@ export class ViewerComponent implements OnInit {
     ngOnInit() {
         if (this.filename) {
             this.renderer = this.createRenderer();
-            document.getElementById('viewport').appendChild(this.renderer.domElement);
+            this.viewport.appendChild(this.renderer.domElement);
 
             this.setupScene();
             this.setupCamera();
@@ -50,6 +62,13 @@ export class ViewerComponent implements OnInit {
         } else {
             console.log('viewer could not be loaded due missing filename');
         }
+    }
+
+    private hide(element: HTMLElement) {
+        element.classList.add('hidden');
+    }
+    private unhide(element: HTMLElement) {
+        element.classList.remove('hidden');
     }
 
     private createRenderer(): WebGLRenderer {
@@ -140,8 +159,18 @@ export class ViewerComponent implements OnInit {
             if (model.animations.length) {
                 this.populateAnimationSelect(model.animations);
                 this.selectAnimation(model.animations[0].name);
-                document.getElementById('control-animations').classList.remove('hidden');
+
+                this.unhide(this.animationControls);
             }
+            this.hide(this.progressBar);
+        }, (xhr: ProgressEvent<EventTarget>) => {
+            this.progressBar.setAttribute('max', `${xhr.total}`);
+            this.progressBar.setAttribute('value', `${xhr.loaded}`);
+            this.progressBar.innerText = `${xhr.loaded / xhr.total * 100}%`;
+        }, (message: string) => {
+            this.errorMessage.innerText = message;
+            this.unhide(this.errorMessage);
+            this.hide(this.progressBar);
         });
     }
 
