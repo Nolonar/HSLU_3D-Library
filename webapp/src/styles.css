@@ -71,6 +71,10 @@ body {
     color: #333333;
 }
 
+.alert {
+    color: #a94442;
+}
+
 .info {
     margin: 5pt;
     padding: 5pt 10pt;

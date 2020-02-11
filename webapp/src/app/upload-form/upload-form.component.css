@@ -29,10 +29,6 @@ label {
     justify-content: center;
 }
 
-.alert {
-    color: #a94442;
-}
-
 .ng-valid[required]:not(.ng-pristine),
 .ng-valid.required:not(.ng-pristine) {
     border-right: 5px solid #42A948;

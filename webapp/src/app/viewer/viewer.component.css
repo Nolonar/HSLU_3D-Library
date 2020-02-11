@@ -22,12 +22,17 @@
     margin-right: 1ex;
 }
 
-#loading {
+#loading, #error-message {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
+}
+
+#error-message {
+    font-weight: bold;
+    font-size: larger;
 }
 
 /* pseudo-element to tell angular to apply style to dynamically generated element */

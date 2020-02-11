@@ -15,16 +15,25 @@ export class LoaderManager {
     };
 
     public static load(filename: string, filetype: string, callback: (model: Model3D) => void) {
+
         const progressBar = document.getElementById('loading');
+        const hideProgressBar = () => progressBar.classList.add('hidden');
 
         const loader = this.loaders[filetype];
         const createModel = this.createModelFunctions[filetype];
+
+        if (!loader) {
+            this.showError(`Filetype not supported: ${filetype}`);
+            hideProgressBar();
+            return;
+        }
+
 
         new loader().load(
             filename,
             (obj) => {
                 callback(createModel(obj));
-                progressBar.classList.add('hidden');
+                hideProgressBar();
             },
             (xhr: ProgressEvent<EventTarget>) => {
                 progressBar.setAttribute('max', `${xhr.total}`);
@@ -32,9 +41,17 @@ export class LoaderManager {
                 progressBar.innerText = `${xhr.loaded / xhr.total * 100}%`;
             },
             (err: ErrorEvent) => {
-                console.error(`An error happened while loading the model: ${err}`);
-                progressBar.classList.add('hidden');
+                this.showError(`An unknown error happened while loading the model.`);
+
+                console.error(err);
+                hideProgressBar();
             }
         );
+    }
+
+    private static showError(message: string) {
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.innerText = message;
+        errorMessage.classList.remove('hidden');
     }
 }
