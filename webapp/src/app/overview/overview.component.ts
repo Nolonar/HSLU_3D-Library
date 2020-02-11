@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { Model } from '../model';
 import { ModelService } from '../model.service';
 
@@ -8,18 +9,20 @@ import { ModelService } from '../model.service';
     styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
+    faFilter = faFilter;
 
     models: Model[];
+    filter = {};
 
     constructor(private modelService: ModelService) {
         // empty
     }
 
     ngOnInit() {
-        this.getModel();
+        this.getModels();
     }
 
-    getModel() {
-        this.modelService.getModels().subscribe(data => this.models = data);
+    getModels() {
+        this.modelService.getModels(this.filter).subscribe(data => this.models = data);
     }
 }

@@ -65,6 +65,7 @@ app.use((req, res, next) => {
 
 app.get('/models', async (req, res) => {
     console.log('GET /models');
+    console.log(await req.query);
     sendResponse(res, async () => await findWhere(req.query));
 });
 
