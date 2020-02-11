@@ -1,7 +1,13 @@
-.panel img {
-    background-color: #fbfbfb;
+.preview-image {
     width: 280pt;
+    height: 210pt;
     max-width: 100%;
-    height: auto;
     border-radius: 3pt;
+    background-color: #fbfbfb;
+    background-position: center;
+}
+
+.filterbar {
+    background-color: #f0f0f0;
+    border-bottom: thin solid #cccccc;
 }

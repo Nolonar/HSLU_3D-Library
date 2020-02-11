@@ -1,10 +1,13 @@
-<div class='dashboard'>
-    <div *ngFor="let model of models" class='panel shadow'>
-        <a routerLink="/detail/{{model._id}}">
-            <div class='titlebar'>
-                <h2>{{model.name}}</h2>
-            </div>
-            <img src="/assets/images/{{model.thumbnail}}" alt='{{model.name}} preview'>
-        </a>
+<div class='titlebar filterbar'>
+    <div class='info'>
+        Filter
     </div>
+</div>
+<div class='dashboard'>
+    <a *ngFor="let model of models" class='panel shadow' routerLink="/detail/{{model._id}}">
+        <div class='titlebar'>
+            <h2>{{model.name}}</h2>
+        </div>
+        <div [ngStyle]="{'background-image': 'url(/assets/images/' + model.thumbnail +')'}" class='preview-image'></div>
+    </a>
 </div>
