@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Model, ModelUpload } from '../app/model';
@@ -21,8 +21,20 @@ export class ModelService {
         this.url = targetUrl;
     }
 
-    public getModels(): Observable<Model[]> {
-        return this.http.get<Model[]>(`${this.url}/models`);
+    public getModels(filter): Observable<Model[]> {
+        const params: HttpParams = this.createHttpParams(filter);
+        return this.http.get<Model[]>(`${this.url}/models`, { params });
+    }
+
+    private createHttpParams(filter): HttpParams {
+        let params = new HttpParams();
+        for (const key in filter) {
+            const value = filter[key];
+            if (value) {
+                params = params.set(key, value);
+            }
+        }
+        return params;
     }
 
     public postModel(model: ModelUpload): Observable<Model> {

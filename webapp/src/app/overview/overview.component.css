@@ -11,3 +11,9 @@
     background-color: #f0f0f0;
     border-bottom: thin solid #cccccc;
 }
+
+label {
+    margin: 5pt;
+    color: #666666;
+    font-size: medium;
+}
