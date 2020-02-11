@@ -1,6 +1,6 @@
 #banner {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 4fr 1fr;
     height: 100pt;
     background-image: url('/assets/images/banner.png');
     background-size: 100%;
