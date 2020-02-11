@@ -12,7 +12,7 @@ export class OverviewComponent implements OnInit {
     faFilter = faFilter;
 
     models: Model[];
-    filter = {};
+    filter = { name: '', filetype: '', uploaderId: '' };
 
     constructor(private modelService: ModelService) {
         // empty

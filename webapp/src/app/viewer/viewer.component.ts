@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector2, Vector3, WebGLRenderer } from 'three';
 import { LoaderManager } from './loaderManager';
 import { Model3D } from './model3d';
 
@@ -19,6 +19,7 @@ export class ViewerComponent implements OnInit {
     @Input() filetype: string;
 
     // Overrides default resolution.
+    @Input() isPreview: boolean = false;
     @Input() resolutionX: number;
     @Input() resolutionY: number;
 
@@ -48,6 +49,12 @@ export class ViewerComponent implements OnInit {
         return document.getElementById('error-message');
     }
 
+    private get aspectRatio(): number {
+        const size = new Vector2();
+        this.renderer.getSize(size);
+        return size.width / size.height;
+    }
+
     constructor() {
         // empty
     }
@@ -61,7 +68,7 @@ export class ViewerComponent implements OnInit {
         this.registerEventHandlers(this.renderer.domElement);
 
         if (this.filename) {
-            this.loadFile(this.filename, this.filetype);
+            this.loadFile(`/assets/models/${this.filename}`, this.filetype);
         } else {
             console.log('viewer could not be loaded due missing filename');
         }
@@ -80,13 +87,12 @@ export class ViewerComponent implements OnInit {
 
     private loadFile(filename: string, filetype: string) {
         LoaderManager.load(filename, filetype,
-            obj => {
-                const createModel = LoaderManager.getCreateModelFunction(filetype);
-                this.loadModel(createModel(obj));
+            model => {
+                this.loadModel(model);
                 this.hide(this.progressBar);
                 requestAnimationFrame(this.animate.bind(this));
             },
-            this.reportProgress,
+            this.reportProgress.bind(this),
             (err: ErrorEvent) => {
                 this.showError(`An unknown error happened while loading the model.`);
                 console.error(err);
@@ -141,8 +147,10 @@ export class ViewerComponent implements OnInit {
 
     private setupScene() {
         this.scene = new Scene();
-        this.grid = new GridHelper(30, 30, 0x000000, 0x000000);
-        this.scene.add(this.grid);
+        if (!this.isPreview) {
+            this.grid = new GridHelper(30, 30, 0x000000, 0x000000);
+            this.scene.add(this.grid);
+        }
 
         const color = 'white';
         const intensity = 1;
@@ -151,7 +159,7 @@ export class ViewerComponent implements OnInit {
 
     private setupCamera() {
         const fov = 75;
-        const aspectRatio = this.rendererDefaultResolution.width / this.rendererDefaultResolution.height;
+        const aspectRatio = this.aspectRatio;
         const near = 0.1;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);
