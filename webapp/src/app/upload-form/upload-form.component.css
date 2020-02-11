@@ -38,6 +38,6 @@ label {
     border-right: 5px solid #42A948;
 }
 
-.ng-invalid:not(form):not(.ng-pristine) {
+.ng-invalid:not(form) {
     border-right: 5px solid #a94442;
 }
