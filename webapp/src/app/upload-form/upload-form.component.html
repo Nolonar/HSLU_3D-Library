@@ -24,6 +24,7 @@
             </div>
             <app-viewer id="viewer" class="hidden" [isPreview]="true" [resolutionX]="640" [resolutionY]="480">
             </app-viewer>
+            <input type="hidden" id="thumbnailDataUrl" name="thumbnailDataUrl" [(ngModel)]="model.thumbnailDataUrl">
             <button type="submit" class="button" [disabled]="!uploadForm.form.valid">Submit</button>
         </form>
     </div>

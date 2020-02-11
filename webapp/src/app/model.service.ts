@@ -41,6 +41,7 @@ export class ModelService {
         // Needed in order to send file to server.
         const formData = new FormData();
         formData.append('name', model.name);
+        formData.append('thumbnailDataUrl', model.thumbnailDataUrl);
         formData.append('file', model.file, model.filename);
 
         const headers = new HttpHeaders();

@@ -14,10 +14,14 @@ require('dotenv').load();
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 const ObjectId = mongo.ObjectId;
+
 const express = require('express');
 const app = express();
+
 const multer = require('multer');
 const upload = multer({ dest: 'src/assets/models/' });
+
+const filesystem = require('fs');
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -88,8 +92,20 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     const collection = await getModelsCollection();
     const result = await collection.insertOne(toInsert);
-    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
+    const id = `${result.insertedId}`;
+
+    saveImage(req.body['thumbnailDataUrl'], id);
+
+    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(id) }));
 });
+
+function saveImage(dataUrl, id) {
+    const data = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(data, 'base64');
+    filesystem.writeFile(`src/assets/images/previews/${id}`, buffer, error => {
+        console.error(error);
+    });
+}
 
 async function sendResponse(res, getResponse) {
     try {

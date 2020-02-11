@@ -16,6 +16,7 @@
         <div class='titlebar'>
             <h2>{{model.name}}</h2>
         </div>
-        <div [ngStyle]="{'background-image': 'url(/assets/images/' + model.thumbnail +')'}" class='preview-image'></div>
+        <div [ngStyle]="{'background-image': 'url(/assets/images/previews/' + model._id +')'}" class='preview-image'>
+        </div>
     </a>
 </div>

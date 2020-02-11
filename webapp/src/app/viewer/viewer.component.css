@@ -38,6 +38,8 @@
 /* pseudo-element to tell angular to apply style to dynamically generated element */
 ::ng-deep #viewport > canvas {
     max-width: 100%;
+    width: 280pt !important;
     height: auto !important; /* needed because threejs uses element styling for width/height */
     border-radius: 3pt;
+    background-color: #dddddd;
 }

@@ -12,7 +12,6 @@ import { Model3D } from './model3d';
     styleUrls: ['./viewer.component.css']
 })
 export class ViewerComponent implements OnInit {
-    private readonly rendererBackgroundColor = 0xa4f4ff;
     private readonly rendererDefaultResolution = { // Can be overriden by @Input.
         width: window.innerWidth / 2,
         height: window.innerHeight / 2
@@ -36,6 +35,14 @@ export class ViewerComponent implements OnInit {
 
     private previousTimeStamp = 0;
 
+    constructor() {
+        // empty
+    }
+
+    public get currentRenderFrame() {
+        return this.renderer.domElement.toDataURL('image/png');
+    }
+
     private get animationControls(): HTMLElement {
         return document.getElementById('control-animations');
     }
@@ -56,10 +63,6 @@ export class ViewerComponent implements OnInit {
         const size = new Vector2();
         this.renderer.getSize(size);
         return size.width / size.height;
-    }
-
-    constructor() {
-        // empty
     }
 
     ngOnInit() {
@@ -103,12 +106,16 @@ export class ViewerComponent implements OnInit {
     }
 
     private loadModel(model: Model3D) {
+        if (this.model) {
+            this.scene.remove(this.model.mesh);
+        }
+
         this.model = model;
 
         this.normalizeModelSize(model);
         this.scene.add(model.mesh);
 
-        this.renderer.setClearColor(this.rendererBackgroundColor);
+        this.renderer.setClearAlpha(0);
 
         if (model.animations.length) {
             this.populateAnimationSelect(model.animations);
@@ -140,9 +147,12 @@ export class ViewerComponent implements OnInit {
         const resX = this.resolutionX || this.rendererDefaultResolution.width;
         const resY = this.resolutionY || this.rendererDefaultResolution.height;
 
-        const renderer = new WebGLRenderer();
+        const renderer = new WebGLRenderer({
+            alpha: true,
+            preserveDrawingBuffer: this.isPreview
+        });
         renderer.setSize(resX, resY);
-        renderer.setClearColor(0x000000);
+        renderer.setClearColor(0);
         return renderer;
     }
 
@@ -199,8 +209,10 @@ export class ViewerComponent implements OnInit {
             const mouseSmoothing = 0.01;
             this.model.mesh.rotation.y += delta.x * mouseSmoothing;
             this.model.mesh.rotation.x += delta.y * mouseSmoothing;
-            this.grid.rotation.y += delta.x * mouseSmoothing;
-            this.grid.rotation.x += delta.y * mouseSmoothing;
+            if (this.grid) {
+                this.grid.rotation.y += delta.x * mouseSmoothing;
+                this.grid.rotation.x += delta.y * mouseSmoothing;
+            }
         };
 
         canvas.onmouseup = (event) => {
