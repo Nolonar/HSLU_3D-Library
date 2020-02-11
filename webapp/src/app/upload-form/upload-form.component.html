@@ -22,6 +22,7 @@
                     <fa-icon [icon]="faWarning"></fa-icon> File is required!
                 </div>
             </div>
+            <app-viewer id="viewer" class="hidden" [resolutionX]="640" [resolutionY]="480"></app-viewer>
             <button type="submit" class="button" [disabled]="!uploadForm.form.valid">Submit</button>
         </form>
     </div>

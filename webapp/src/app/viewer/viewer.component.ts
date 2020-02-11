@@ -10,13 +10,17 @@ import { Model3D } from './model3d';
 })
 export class ViewerComponent implements OnInit {
     private readonly rendererBackgroundColor = 0xa4f4ff;
-    private readonly rendererResolution = {
+    private readonly rendererDefaultResolution = { // Can be overriden by @Input.
         width: window.innerWidth / 2,
         height: window.innerHeight / 2
     };
 
     @Input() filename: string;
     @Input() filetype: string;
+
+    // Overrides default resolution.
+    @Input() resolutionX: number;
+    @Input() resolutionY: number;
 
     private renderer: WebGLRenderer;
     private scene: Scene;
@@ -49,19 +53,45 @@ export class ViewerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.renderer = this.createRenderer();
+        this.viewport.appendChild(this.renderer.domElement);
+
+        this.setupScene();
+        this.setupCamera();
+        this.registerEventHandlers(this.renderer.domElement);
+
         if (this.filename) {
-            this.renderer = this.createRenderer();
-            this.viewport.appendChild(this.renderer.domElement);
-
-            this.setupScene();
-            this.setupCamera();
-            this.registerEventHandlers(this.renderer.domElement);
-            this.loadModel(`/assets/models/${this.filename}`, this.filetype);
-
-            requestAnimationFrame(this.animate.bind(this));
+            this.loadFile(this.filename, this.filetype);
         } else {
             console.log('viewer could not be loaded due missing filename');
         }
+    }
+
+    public parseFile(file: File, filetype: string) {
+        LoaderManager.parse(file, filetype).then(model => {
+            this.loadModel(model);
+            this.hide(this.progressBar);
+            requestAnimationFrame(this.animate.bind(this));
+        }).catch(err => {
+            this.showError(`An unknown error happened while parsing the model.`);
+            console.error(err);
+        });
+    }
+
+    private loadFile(filename: string, filetype: string) {
+        LoaderManager.load(filename, filetype,
+            obj => {
+                const createModel = LoaderManager.getCreateModelFunction(filetype);
+                this.loadModel(createModel(obj));
+                this.hide(this.progressBar);
+                requestAnimationFrame(this.animate.bind(this));
+            },
+            this.reportProgress,
+            (err: ErrorEvent) => {
+                this.showError(`An unknown error happened while loading the model.`);
+                console.error(err);
+            }
+        );
     }
 
     private hide(element: HTMLElement) {
@@ -71,9 +101,40 @@ export class ViewerComponent implements OnInit {
         element.classList.remove('hidden');
     }
 
+    private loadModel(model: Model3D) {
+        this.model = model;
+
+        this.normalizeModelSize(model);
+        this.scene.add(model.mesh);
+
+        this.renderer.setClearColor(this.rendererBackgroundColor);
+
+        if (model.animations.length) {
+            this.populateAnimationSelect(model.animations);
+            this.selectAnimation(model.animations[0].name);
+
+            this.unhide(this.animationControls);
+        }
+    }
+
+    private reportProgress(xhr: ProgressEvent<EventTarget>) {
+        this.progressBar.setAttribute('max', `${xhr.total}`);
+        this.progressBar.setAttribute('value', `${xhr.loaded}`);
+        this.progressBar.innerText = `${xhr.loaded / xhr.total * 100}%`;
+    }
+
+    private showError(message: string) {
+        this.errorMessage.innerText = message;
+        this.unhide(this.errorMessage);
+        this.hide(this.progressBar);
+    }
+
     private createRenderer(): WebGLRenderer {
+        const resX = this.resolutionX || this.rendererDefaultResolution.width;
+        const resY = this.resolutionY || this.rendererDefaultResolution.height;
+
         const renderer = new WebGLRenderer();
-        renderer.setSize(this.rendererResolution.width, this.rendererResolution.height);
+        renderer.setSize(resX, resY);
         renderer.setClearColor(0x000000);
         return renderer;
     }
@@ -90,7 +151,7 @@ export class ViewerComponent implements OnInit {
 
     private setupCamera() {
         const fov = 75;
-        const aspectRatio = this.rendererResolution.width / this.rendererResolution.height;
+        const aspectRatio = this.rendererDefaultResolution.width / this.rendererDefaultResolution.height;
         const near = 0.1;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);
@@ -145,33 +206,6 @@ export class ViewerComponent implements OnInit {
             event.preventDefault();
             return false;
         };
-    }
-
-    private loadModel(filename: string, filetype: string) {
-        LoaderManager.load(filename, filetype, (model: Model3D) => {
-            this.model = model;
-
-            this.normalizeModelSize(model);
-            this.scene.add(model.mesh);
-
-            this.renderer.setClearColor(this.rendererBackgroundColor);
-
-            if (model.animations.length) {
-                this.populateAnimationSelect(model.animations);
-                this.selectAnimation(model.animations[0].name);
-
-                this.unhide(this.animationControls);
-            }
-            this.hide(this.progressBar);
-        }, (xhr: ProgressEvent<EventTarget>) => {
-            this.progressBar.setAttribute('max', `${xhr.total}`);
-            this.progressBar.setAttribute('value', `${xhr.loaded}`);
-            this.progressBar.innerText = `${xhr.loaded / xhr.total * 100}%`;
-        }, (message: string) => {
-            this.errorMessage.innerText = message;
-            this.unhide(this.errorMessage);
-            this.hide(this.progressBar);
-        });
     }
 
     private populateAnimationSelect(animations: AnimationClip[]) {

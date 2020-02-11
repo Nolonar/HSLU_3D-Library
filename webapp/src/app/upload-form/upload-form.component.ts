@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ModelUpload } from '../model';
 import { ModelService } from '../model.service';
+import { ViewerComponent } from '../viewer/viewer.component';
 
 @Component({
     selector: 'app-upload-form',
@@ -10,6 +11,9 @@ import { ModelService } from '../model.service';
     styleUrls: ['./upload-form.component.css']
 })
 export class UploadFormComponent implements OnInit {
+    @ViewChild(ViewerComponent)
+    private viewer: ViewerComponent;
+
     public model = new ModelUpload();
     faWarning = faExclamationTriangle;
 
@@ -27,6 +31,15 @@ export class UploadFormComponent implements OnInit {
     }
 
     public onFileChange(files: FileList) {
-        this.model.file = files[0];
+        const file = files[0];
+        this.model.file = file;
+
+        const viewerElement = document.getElementById('viewer');
+        if (file) {
+            viewerElement.classList.remove('hidden');
+            this.viewer.parseFile(file, file.name.split('.').pop());
+        } else {
+            viewerElement.classList.add('hidden');
+        }
     }
 }
