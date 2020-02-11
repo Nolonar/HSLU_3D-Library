@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, PerspectiveCamera, Scene, Vector2, Vector3, WebGLRenderer } from 'three';
+import {
+    AmbientLight, AnimationClip, AnimationMixer, Box3, Camera, GridHelper, // next line
+    PerspectiveCamera, Scene, Vector2, Vector3, WebGLRenderer
+} from 'three';
 import { LoaderManager } from './loaderManager';
 import { Model3D } from './model3d';
 
@@ -19,7 +22,7 @@ export class ViewerComponent implements OnInit {
     @Input() filetype: string;
 
     // Overrides default resolution.
-    @Input() isPreview: boolean = false;
+    @Input() isPreview = false;
     @Input() resolutionX: number;
     @Input() resolutionY: number;
 
@@ -75,11 +78,7 @@ export class ViewerComponent implements OnInit {
     }
 
     public parseFile(file: File, filetype: string) {
-        LoaderManager.parse(file, filetype).then(model => {
-            this.loadModel(model);
-            this.hide(this.progressBar);
-            requestAnimationFrame(this.animate.bind(this));
-        }).catch(err => {
+        LoaderManager.parse(file, filetype).then(this.onLoad.bind(this)).catch(err => {
             this.showError(`An unknown error happened while parsing the model.`);
             console.error(err);
         });
@@ -87,11 +86,7 @@ export class ViewerComponent implements OnInit {
 
     private loadFile(filename: string, filetype: string) {
         LoaderManager.load(filename, filetype,
-            model => {
-                this.loadModel(model);
-                this.hide(this.progressBar);
-                requestAnimationFrame(this.animate.bind(this));
-            },
+            this.onLoad.bind(this),
             this.reportProgress.bind(this),
             (err: ErrorEvent) => {
                 this.showError(`An unknown error happened while loading the model.`);
@@ -121,6 +116,12 @@ export class ViewerComponent implements OnInit {
 
             this.unhide(this.animationControls);
         }
+    }
+
+    private onLoad(model: Model3D) {
+        this.loadModel(model);
+        this.hide(this.progressBar);
+        requestAnimationFrame(this.animate.bind(this));
     }
 
     private reportProgress(xhr: ProgressEvent<EventTarget>) {
