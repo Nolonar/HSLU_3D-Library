@@ -82,10 +82,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('POST /upload');
 
     const toInsert = {
-        name: req.body['name'],
+        name: req.body['name'].trim(),
         filename: req.file['filename'],
         filetype: req.file['originalname'].split('.').pop(),
-        thumbnail: 'placeholder.png', // TODO: generate thumbnail
         creationDate: new Date(),
         uploaderId: '1'
     };
