@@ -43,8 +43,8 @@ export class LoaderManager {
         },
         stl: async (file: File) => {
             const data = await LoaderManager.getBufferArray(file);
-            const geometry = new STLLoader().parse(data)
-            return new Model3D(new Mesh(geometry, LoaderManager.defaultMaterial))
+            const geometry = new STLLoader().parse(data);
+            return new Model3D(new Mesh(geometry, LoaderManager.defaultMaterial));
         }
     };
 
