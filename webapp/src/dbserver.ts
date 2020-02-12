@@ -68,8 +68,6 @@ app.use((req, res, next) => {
 });
 
 app.get('/models', async (req, res) => {
-    console.log('GET /models');
-    console.log(await req.query);
     sendResponse(res, async () => await findWhere(req.query));
 });
 
@@ -79,8 +77,6 @@ app.get('/model/:modelId', async (req, res) => {
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-    console.log('POST /upload');
-
     const filename = req.file['filename'];
     saveImage(req.body['thumbnailDataUrl'], filename);
     const toInsert = {
@@ -93,8 +89,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     const collection = await getModelsCollection();
     const result = await collection.insertOne(toInsert);
-
-    res.json(await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
+    sendResponse(res, async () => await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
 });
 
 function saveImage(dataUrl, filename) {
@@ -108,7 +103,9 @@ function saveImage(dataUrl, filename) {
 async function sendResponse(res, getResponse) {
     try {
         res.json(await getResponse());
-    } catch {
+    } catch (error) {
+        console.error('error occured: ');
+        console.error(error);
         res.json(null);
     }
 }

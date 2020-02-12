@@ -32,8 +32,7 @@ export class UploadFormComponent implements OnInit {
         this.model.thumbnailDataUrl = this.viewer.currentRenderFrame;
         this.modelService.postModel(this.model).subscribe(uploaded => {
             // Need to use location (instead of router), otherwise browser will not send "_id" to dbserver.
-            console.log(`navigating to: /detail/${uploaded._id}`);
-            this.location.go(`/detail/${uploaded._id}`);
+            window.location.href = `/detail/${uploaded._id}`;
         });
     }
 
