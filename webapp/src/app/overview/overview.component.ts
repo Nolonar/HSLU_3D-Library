@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { Model } from '../model';
-import { ModelService } from '../model.service';
+import { ModelService } from '../services/model.service';
 
 @Component({
     selector: 'app-overview',

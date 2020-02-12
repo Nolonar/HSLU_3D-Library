@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { ModelUpload } from '../model';
-import { ModelService } from '../model.service';
+import { ModelService } from '../services/model.service';
 import { LoaderManager } from '../viewer/loaderManager';
 import { ViewerComponent } from '../viewer/viewer.component';
 
