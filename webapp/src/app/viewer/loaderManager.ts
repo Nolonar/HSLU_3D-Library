@@ -1,7 +1,10 @@
-import { Geometry, Mesh, MeshDepthMaterial, Object3D } from 'three';
+import { Geometry, Group, Mesh, MeshDepthMaterial } from 'three';
+import { Collada, ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+import { TDSLoader } from 'three/examples/jsm/loaders/TDSLoader';
 import { Model3D } from './model3d';
 
 export class LoaderManager {
@@ -10,20 +13,16 @@ export class LoaderManager {
     private static loaders = {
         glb: GLTFLoader,
         obj: OBJLoader,
-        stl: STLLoader
+        stl: STLLoader,
+        dae: ColladaLoader,
+        fbx: FBXLoader,
+        '3ds': TDSLoader
     };
 
     private static createModelFunctions = {
         glb: (obj: GLTF) => new Model3D(obj.scene, obj.animations),
-        obj: (obj: Object3D) => {
-            obj.traverse(child => {
-                if (child instanceof Mesh) {
-                    child.material = LoaderManager.defaultMaterial;
-                }
-            });
-            return new Model3D(obj);
-        },
-        stl: (obj: Geometry) => new Model3D(new Mesh(obj, LoaderManager.defaultMaterial))
+        dae: (obj: Collada) => new Model3D(obj.scene, obj.animations),
+        stl: (obj: Geometry) => new Model3D(new Mesh(obj, LoaderManager.defaultMaterial)),
     };
 
     private static parseFunctions = {
@@ -35,18 +34,41 @@ export class LoaderManager {
                 }, error => reject(error));
             });
         },
-        obj: async (file: File) => {
-            console.log(file);
-            // Workaround to access File.__proto__.__proto__.text() with TypeScript.
-            const text = await (file as unknown as Body).text();
-            return new Model3D(new OBJLoader().parse(text));
+        dae: async (file: File) => {
+            const text: string = await (file as unknown as Body).text();
+            const createModel = LoaderManager.getCreateModelFunction('dae');
+            return Promise.resolve(createModel(new ColladaLoader().parse(text, '')));
         },
         stl: async (file: File) => {
             const data = await LoaderManager.getBufferArray(file);
             const geometry = new STLLoader().parse(data);
             return new Model3D(new Mesh(geometry, LoaderManager.defaultMaterial));
+        },
+        obj: async (file: File) => {
+            const text: string = await (file as unknown as Body).text();
+            const createModel = LoaderManager.getCreateModelFunction('obj');
+            return createModel(new OBJLoader().parse(text));
         }
     };
+
+    private static readonly defaultCreateModelFunction = (obj: Group) => {
+        obj.traverse(child => {
+            if (child instanceof Mesh) {
+                child.material = LoaderManager.defaultMaterial;
+            }
+        });
+        return new Model3D(obj);
+    }
+
+    private static getDefaultParseFunction(filetype: string): (file: File) => Promise<Model3D> {
+        const loader = this.loaders[filetype];
+        const createModel = this.getCreateModelFunction(filetype);
+        return async (file: File) => {
+            // Workaround to access File.__proto__.__proto__.text() with TypeScript.
+            const data = await LoaderManager.getBufferArray(file);
+            return createModel(new loader().parse(data));
+        };
+    }
 
     private static async getBufferArray(file: File) {
         // Workaround to access File.__proto__.__proto__.arrayBuffer() with TypeScript.
@@ -58,7 +80,7 @@ export class LoaderManager {
     }
 
     public static getCreateModelFunction(filetype: string): (obj: object) => Model3D {
-        return this.createModelFunctions[filetype];
+        return this.createModelFunctions[filetype] || LoaderManager.defaultCreateModelFunction;
     }
 
     public static load(filename: string, filetype: string,
@@ -73,11 +95,15 @@ export class LoaderManager {
             }));
             return;
         }
-        const createModel = this.createModelFunctions[filetype];
+        const createModel = this.getCreateModelFunction(filetype);
         new loader().load(filename, obj => onDone(createModel(obj)), onProgress, onError);
     }
 
     public static async parse(file: File, filetype: string): Promise<Model3D> {
-        return this.parseFunctions[filetype](file);
+        let parser = this.parseFunctions[filetype];
+        if (!parser) {
+            parser = this.getDefaultParseFunction(filetype).bind(this);
+        }
+        return parser(file);
     }
 }

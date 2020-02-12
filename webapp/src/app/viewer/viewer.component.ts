@@ -46,15 +46,19 @@ export class ViewerComponent implements OnInit {
     private get animationControls(): HTMLElement {
         return document.getElementById('control-animations');
     }
+
     private get animationSelect(): HTMLElement {
         return document.getElementById('animations');
     }
+
     private get viewport(): HTMLElement {
         return document.getElementById('viewport');
     }
+
     private get progressBar(): HTMLElement {
         return document.getElementById('loading');
     }
+
     private get errorMessage(): HTMLElement {
         return document.getElementById('error-message');
     }
@@ -81,6 +85,7 @@ export class ViewerComponent implements OnInit {
     }
 
     public parseFile(file: File, filetype: string) {
+        this.hide(this.errorMessage);
         LoaderManager.parse(file, filetype).then(this.onLoad.bind(this)).catch(err => {
             this.showError(`An unknown error happened while parsing the model.`);
             console.error(err);
