@@ -15,7 +15,7 @@ describe('workspace-project App', () => {
 
     it('test overview', async () => {
         await page.navigateTo();
-        await expect(await page.getPanelTitlebarText()).toEqual('Suzanne');
+        await expect(await page.getPanelTitlebarText()).toEqual('Hummingbird');
     });
 
     xit('test detailview', async () => {
