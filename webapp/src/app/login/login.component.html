@@ -1,16 +1,26 @@
-<form [formGroup]="form">
-    <fieldset>
-        <legend>Login</legend>
-        <div class="form-field">
-            <label>Username:</label>
-            <input name="username" formControlName="username">
+<div class='dashboard'>
+    <div class='panel'>
+        <div class='titlebar'>
+            <h2>Login</h2>
         </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <input name="password" formControlName="password" type="password">
-        </div>
-    </fieldset>
-    <div class="form-buttons">
-        <button class="button" (click)="login()">Login</button>
+        <form id="loginform" #loginForm="ngForm" (ngSubmit)="onSubmit($event)">
+            <div class="inputbar">
+                <label for="name">Username:</label>
+                <input type="text" #username="ngModel" id="name" name="name" [(ngModel)]="name" placeholder="Username"
+                    required>
+                <div [hidden]="name.valid || name.pristine" class="info alert">
+                    <fa-icon [icon]="faWarning"></fa-icon> Username is required!
+                </div>
+            </div>
+            <div class="inputbar">
+                <label for="password">Password:</label>
+                <input type="password" #pasword="ngModel" id="password" name="password" [(ngModel)]="password"
+                    placeholder="Password" required>
+                <div [hidden]="password.valid || password.pristine" class="info alert">
+                    <fa-icon [icon]="faWarning"></fa-icon> Password is required!
+                </div>
+            </div>
+            <button type="submit" class="button" [disabled]="!loginForm.form.valid">Login</button>
+        </form>
     </div>
-</form>
+</div>

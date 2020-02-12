@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -7,31 +7,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  faWarning = faExclamationTriangle;
+  public name = '';
+  public password = '';
 
   constructor(
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     // private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+    // empty
+  }
+
+  public onSubmit(event) {
+    console.log('onsubmit');
   }
 
   login() {
-    const val = this.loginForm.value;
+    console.log('login');
+    // const val = this.loginForm.value;
 
-    if (val.username && val.password) {
-      // this.authService.login(val.username, val.password)
-      //   .subscribe(
-      //     () => {
-      console.log(`User${val.username} is logged in`);
-      //       this.router.navigateByUrl('/');
-      //     }
-      //   );
-    }
+    // if (val.username && val.password) {
+    // this.authService.login(val.username, val.password)
+    //   .subscribe(
+    //     () => {
+    // console.log(`User${val.username} is logged in`);
+    //       this.router.navigateByUrl('/');
+    //     }
+    //   );
+    // }
   }
 }
