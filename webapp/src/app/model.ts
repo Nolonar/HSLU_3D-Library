@@ -1,5 +1,5 @@
 export class Model {
-    '_id': number;
+    '_id': string;
     name: string;
     filename: string;
     filetype: string;

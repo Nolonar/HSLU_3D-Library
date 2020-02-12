@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faClock, faFileDownload, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faFileDownload, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Model } from '../model';
 import { ModelService } from '../model.service';
 
@@ -14,6 +14,7 @@ export class DetailComponent implements OnInit {
     faDownload = faFileDownload;
     faUser = faUser;
     faDate = faClock;
+    faDelete = faTrash;
 
     constructor(private router: Router, private route: ActivatedRoute, private modelService: ModelService) { }
 
@@ -29,6 +30,13 @@ export class DetailComponent implements OnInit {
                 void this.router.navigateByUrl('/404'); // No need to handle promise when redirecting.
             }
             this.model = m;
+        });
+    }
+
+    deleteModel() {
+        const id = this.model._id;
+        this.modelService.deleteModelById(id).subscribe(response => {
+            window.location.href = '/';
         });
     }
 }

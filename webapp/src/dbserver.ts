@@ -63,6 +63,7 @@ async function getModelsCollection() {
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', frontendDomain);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
@@ -73,7 +74,13 @@ app.get('/models', async (req, res) => {
 
 app.get('/model/:modelId', async (req, res) => {
     const modelId = req.params['modelId'];
-    sendResponse(res, async () => await findOneWhere({ '_id': ObjectId.createFromHexString(`${modelId}`) }));
+    sendResponse(res, async () => await findOneWhere(getQueryById(modelId)));
+});
+
+app.delete('/model/:modelId', async (req, res) => {
+    const modelId = req.params['modelId'];
+    const model = await findOneWhere(getQueryById(modelId));
+    sendResponse(res, async () => await deleteModel(model));
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
@@ -89,7 +96,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     const collection = await getModelsCollection();
     const result = await collection.insertOne(toInsert);
-    sendResponse(res, async () => await collection.findOne({ '_id': ObjectId.createFromHexString(`${result.insertedId}`) }));
+    sendResponse(res, async () => await collection.findOne(getQueryById(result.insertedId)));
 });
 
 function saveImage(dataUrl, filename) {
@@ -100,11 +107,14 @@ function saveImage(dataUrl, filename) {
     });
 }
 
+function getQueryById(id) {
+    return { '_id': ObjectId.createFromHexString(`${id}`) };
+}
+
 async function sendResponse(res, getResponse) {
     try {
         res.json(await getResponse());
     } catch (error) {
-        console.error('error occured: ');
         console.error(error);
         res.json(null);
     }
@@ -118,6 +128,47 @@ async function findWhere(query) {
 async function findOneWhere(query) {
     const collection = await getModelsCollection();
     return await collection.findOne(query);
+}
+
+async function deleteModel(model) {
+    const collection = await getModelsCollection();
+    await collection.deleteOne(getQueryById(model._id));
+    return await deleteModelFiles(model.filename);
+}
+
+async function deleteModelFiles(filename) {
+    console.log(`Deleting: ${filename}`);
+    const response = {
+        success: true,
+        errors: []
+    };
+    const pathsToDeleteFrom = [
+        'src/assets/models',
+        'src/assets/images/previews'
+    ];
+    for (const path of pathsToDeleteFrom) {
+        try {
+            await deleteFile(`${path}/${filename}`);
+        } catch (error) {
+            response.success = false;
+            response.errors.push(error);
+        }
+    }
+
+    return response;
+}
+
+async function deleteFile(path) {
+    return new Promise((resolve, reject) => {
+        filesystem.unlink(path, error => {
+            if (error) {
+                console.error(error);
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 const server = app.listen(3000, () => {

@@ -8,6 +8,9 @@
             <div class="info">
                 <fa-icon [icon]="faUser"></fa-icon> Uploaded by {{model.uploaderId}}
             </div>
+            <button class='button' (click)="deleteModel()">
+                <fa-icon [icon]="faDelete"></fa-icon> Delete
+            </button>
             <div class="info">
                 <fa-icon [icon]="faDate"></fa-icon> Published on
                 {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}

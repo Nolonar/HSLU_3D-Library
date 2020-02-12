@@ -52,4 +52,8 @@ export class ModelService {
     public getModelById(id: string): Observable<Model> {
         return this.http.get<Model>(`${this.url}/model/${id}`);
     }
+
+    public deleteModelById(id: string): Observable<object> {
+        return this.http.delete<object>(`${this.url}/model/${id}`);
+    }
 }
