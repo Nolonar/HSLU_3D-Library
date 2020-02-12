@@ -137,7 +137,6 @@ async function deleteModel(model) {
 }
 
 async function deleteModelFiles(filename) {
-    console.log(`Deleting: ${filename}`);
     const response = {
         success: true,
         errors: []
