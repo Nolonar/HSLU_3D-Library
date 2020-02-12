@@ -17,6 +17,16 @@ body {
     justify-content: center;
 }
 
+.form {
+    background-color: #fbfbfb;
+    width: 600pt;
+    height: 300pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .infobar {
     display: flex;
     align-items: center;
@@ -84,6 +94,35 @@ body {
     color: #a94442;
     top: 1.5em;
     position: absolute;
+}
+
+.inputbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+input {
+    border: thin solid #cccccc;
+    border-radius: 3pt;
+    font-size: medium;
+    background-color: #f7f7f7;
+}
+
+label {
+    margin: 5pt;
+    color: #666666;
+    font-size: medium;
+}
+
+.ng-valid[required]:not(.ng-pristine),
+.ng-valid.required:not(.ng-pristine) {
+    border-right: 5px solid #42A948;
+}
+
+.ng-invalid:not(form) {
+    border-right: 5px solid #a94442;
 }
 
 a {

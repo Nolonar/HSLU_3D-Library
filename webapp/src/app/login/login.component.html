@@ -3,7 +3,7 @@
         <div class='titlebar'>
             <h2>Login</h2>
         </div>
-        <form id="loginform" #loginForm="ngForm" (ngSubmit)="onSubmit($event)">
+        <form id="loginForm" #loginForm="ngForm" class="form" (ngSubmit)="onSubmit($event)">
             <div class="inputbar">
                 <label for="name">Username:</label>
                 <input type="text" #username="ngModel" id="name" name="name" [(ngModel)]="name" placeholder="Username"

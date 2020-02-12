@@ -1,42 +1,9 @@
-#uploadForm {
-    background-color: #fbfbfb;
-    width: 600pt;
-    height: 300pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+label {
+    width: 100pt;
 }
 
 input {
     width: 250pt;
-    border: thin solid #cccccc;
-    border-radius: 3pt;
-    font-size: medium;
-    background-color: #f7f7f7;
-}
-
-label {
-    width: 100pt;
-    margin: 5pt;
-    color: #666666;
-    font-size: medium;
-}
-
-.inputbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.ng-valid[required]:not(.ng-pristine),
-.ng-valid.required:not(.ng-pristine) {
-    border-right: 5px solid #42A948;
-}
-
-.ng-invalid:not(form) {
-    border-right: 5px solid #a94442;
 }
 
 /* pseudo-element to tell angular to apply style to dynamically generated element */

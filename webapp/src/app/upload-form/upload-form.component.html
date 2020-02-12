@@ -3,7 +3,7 @@
         <div class='titlebar'>
             <h2>Upload</h2>
         </div>
-        <form id="uploadForm" #uploadForm="ngForm" (ngSubmit)="onSubmit($event)" method="POST">
+        <form id="uploadForm" #uploadForm="ngForm" class="form" (ngSubmit)="onSubmit($event)" method="POST">
             <div class='inputbar'>
                 <label for="name">Name:</label>
                 <input type="text" #name="ngModel" id="name" name="name" [(ngModel)]="model.name"
