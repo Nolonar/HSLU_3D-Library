@@ -10,6 +10,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { OverviewComponent } from './overview/overview.component';
 import { UploadFormComponent } from './upload-form/upload-form.component';
 import { ViewerComponent } from './viewer/viewer.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { ViewerComponent } from './viewer/viewer.component';
         OverviewComponent,
         NotFoundComponent,
         ViewerComponent,
-        UploadFormComponent
+        UploadFormComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
