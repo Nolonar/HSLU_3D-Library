@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Model, ModelUpload } from '../model';
+import { DatabaseModel } from '../models/database-model';
+import { UploadModel } from '../models/upload-model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,15 +16,14 @@ export class ModelService {
 
         let targetUrl = target.toString();
         if (targetUrl.slice(-1) === '/') {
-            // Remove trailing /
             targetUrl = targetUrl.slice(0, -1);
         }
         this.url = targetUrl;
     }
 
-    public getModels(filter): Observable<Model[]> {
+    public getModels(filter): Observable<DatabaseModel[]> {
         const params: HttpParams = this.createHttpParams(filter);
-        return this.http.get<Model[]>(`${this.url}/models`, { params });
+        return this.http.get<DatabaseModel[]>(`${this.url}/models`, { params });
     }
 
     private createHttpParams(filter): HttpParams {
@@ -37,7 +37,7 @@ export class ModelService {
         return params;
     }
 
-    public postModel(model: ModelUpload): Observable<Model> {
+    public postModel(model: UploadModel): Observable<DatabaseModel> {
         // Needed in order to send file to server.
         const formData = new FormData();
         formData.append('name', model.name);
@@ -46,11 +46,11 @@ export class ModelService {
 
         const headers = new HttpHeaders();
         headers.append('Content-Type', 'multipart/octet-stream');
-        return this.http.post<Model>(`${this.url}/upload`, formData, { headers });
+        return this.http.post<DatabaseModel>(`${this.url}/upload`, formData, { headers });
     }
 
-    public getModelById(id: string): Observable<Model> {
-        return this.http.get<Model>(`${this.url}/model/${id}`);
+    public getModelById(id: string): Observable<DatabaseModel> {
+        return this.http.get<DatabaseModel>(`${this.url}/model/${id}`);
     }
 
     public deleteModelById(id: string): Observable<object> {
