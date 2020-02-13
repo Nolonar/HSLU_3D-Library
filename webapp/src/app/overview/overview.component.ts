@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { Model } from '../model';
+import { DatabaseModel } from '../models/database-model';
 import { ModelService } from '../services/model.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { ModelService } from '../services/model.service';
 export class OverviewComponent implements OnInit {
     faFilter = faFilter;
 
-    models: Model[];
+    models: DatabaseModel[];
     filter = { name: '', filetype: '', uploaderId: '' };
 
     constructor(private modelService: ModelService) {

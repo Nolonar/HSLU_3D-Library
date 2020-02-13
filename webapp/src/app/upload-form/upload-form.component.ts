@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { ModelUpload } from '../model';
+import { UploadModel } from '../models/upload-model';
 import { ModelService } from '../services/model.service';
 import { LoaderManager } from '../viewer/loaderManager';
 import { ViewerComponent } from '../viewer/viewer.component';
@@ -15,7 +15,7 @@ export class UploadFormComponent implements OnInit {
     @ViewChild(ViewerComponent)
     private viewer: ViewerComponent;
 
-    public model = new ModelUpload();
+    public model = new UploadModel();
     faWarning = faExclamationTriangle;
 
     constructor(private modelService: ModelService, private location: Location) { }

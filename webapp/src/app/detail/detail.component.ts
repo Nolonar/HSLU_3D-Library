@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faClock, faFileDownload, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Model } from '../model';
+import { DatabaseModel } from '../models/database-model';
 import { ModelService } from '../services/model.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ModelService } from '../services/model.service';
     styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
-    model: Model;
+    model: DatabaseModel;
     faDownload = faFileDownload;
     faUser = faUser;
     faDate = faClock;
