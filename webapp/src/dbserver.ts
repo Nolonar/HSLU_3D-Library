@@ -1,3 +1,5 @@
+import { JwtResponse } from "./app/models/jwt-response";
+
 const frontendDomain = 'http://localhost:4200';
 
 /**
@@ -22,6 +24,8 @@ const multer = require('multer');
 const upload = multer({ dest: 'src/assets/models/' });
 
 const filesystem = require('fs');
+
+const jwt = require('jsonwebtoken');
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -98,6 +102,35 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const result = await collection.insertOne(toInsert);
     sendResponse(res, async () => await collection.findOne(getQueryById(result.insertedId)));
 });
+
+app.post('/login', upload.single(), async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log(`username: ${username}, password: ${password}`);
+    const RSA_PRIVATE_KEY = 'MySecretKey';
+
+    if (validateAuthentication()) {
+        const userId = '1';
+        const data = {};
+        const options = {
+            // algorithm: 'RS256',
+            expiresIn: 120,
+            subject: userId
+        };
+        const jwtBearerToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
+        const jwtResponse: JwtResponse = {
+            idToken: jwtBearerToken,
+            expiresIn: 120
+        };
+        res.status(200).json(jwtResponse);
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+function validateAuthentication() {
+    return true;
+}
 
 function saveImage(dataUrl, filename) {
     const data = dataUrl.replace(/^data:image\/\w+;base64,/, "");

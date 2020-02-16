@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { JwtResponse } from '../models/jwt-response';
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +21,11 @@ export class AuthService {
         this.url = targetUrl;
     }
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`${this.url}/login`, { username, password })
+    login(username: string, password: string): Observable<JwtResponse> {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        return this.http.post<JwtResponse>(`${this.url}/login`, formData)
             .pipe(tap(this.setSession));
     }
 
@@ -29,13 +34,13 @@ export class AuthService {
         localStorage.removeItem("expires_at");
     }
 
-    private setSession(authResult) {
+    private setSession(authResult: JwtResponse) {
         const expiresAt = new Date();
         expiresAt.setSeconds(expiresAt.getSeconds() + authResult.expiresIn);
-
         console.log('id_token: ' + authResult.idToken);
         console.log('expiresIn: ' + authResult.expiresIn);
         console.log('expires_at: ' + expiresAt);
+        console.log(authResult);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
     }

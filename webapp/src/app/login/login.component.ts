@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -25,18 +27,15 @@ export class LoginComponent implements OnInit {
     }
 
     public login() {
-        console.log('login');
         const values = this.loginForm.value;
 
         if (values.username && values.password) {
-            const result = this.authService.login(values.username, values.password)
+            this.authService.login(values.username, values.password)
                 .subscribe(
                     () => {
-                        console.log(`User ${values.username} is logged in`);
-                        //       this.router.navigateByUrl('/');
+                        this.router.navigateByUrl('/');
                     }
                 );
-            console.log('result: ' + result);
         }
     }
 }
