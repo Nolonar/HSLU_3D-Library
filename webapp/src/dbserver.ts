@@ -126,7 +126,7 @@ function validateAuthentication(username, passsword) {
 }
 
 function saveImage(dataUrl, filename) {
-    const data = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    const data = dataUrl.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(data, 'base64');
     filesystem.writeFile(`src/assets/images/previews/${filename}`, buffer, error => {
         console.error(error);
