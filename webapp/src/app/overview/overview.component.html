@@ -1,18 +1,18 @@
 <div class='titlebar filterbar'>
     <div class='info'>
-        <label for="name">Name:</label>
-        <input type="text" #name="ngModel" id="name" [(ngModel)]="filter.name">
-        <label for="type">File type:</label>
-        <input type="text" #name="ngModel" id="type" [(ngModel)]="filter.filetype">
-        <label for="uploader">Uploader:</label>
-        <input type="text" #name="ngModel" id="uploader" [(ngModel)]="filter.uploaderId">
-        <button class='button' (click)="getModels()">
-            <fa-icon [icon]="faFilter"></fa-icon> Filter
+        <label for='name'>Name:</label>
+        <input type='text' #name='ngModel' id='name' [(ngModel)]='filter.name'>
+        <label for='type'>File type:</label>
+        <input type='text' #name='ngModel' id='type' [(ngModel)]='filter.filetype'>
+        <label for='uploader'>Uploader:</label>
+        <input type='text' #name='ngModel' id='uploader' [(ngModel)]='filter.uploaderId'>
+        <button class='button' (click)='getModels()'>
+            <fa-icon [icon]='faFilter'></fa-icon> Filter
         </button>
     </div>
 </div>
 <div class='dashboard'>
-    <a *ngFor="let model of models" class='panel shadow' routerLink="/detail/{{model._id}}">
+    <a *ngFor='let model of models' class='panel shadow' routerLink='/detail/{{model._id}}'>
         <div class='titlebar'>
             <h2>{{model.name}}</h2>
         </div>

@@ -3,21 +3,21 @@
         <div class='titlebar'>
             <h2>{{model.name}}</h2>
         </div>
-        <app-viewer [filename]="model.filename" [filetype]="model.filetype"></app-viewer>
+        <app-viewer [filename]='model.filename' [filetype]='model.filetype'></app-viewer>
         <div class='infobar'>
-            <div class="info">
-                <fa-icon [icon]="faUser"></fa-icon> Uploaded by {{model.uploaderId}}
+            <div class='info'>
+                <fa-icon [icon]='faUser'></fa-icon> Uploaded by {{model.uploaderId}}
             </div>
-            <button class='button' (click)="deleteModel()">
-                <fa-icon [icon]="faDelete"></fa-icon> Delete
+            <button class='button' (click)='deleteModel()'>
+                <fa-icon [icon]='faDelete'></fa-icon> Delete
             </button>
-            <div class="info">
-                <fa-icon [icon]="faDate"></fa-icon> Published on
-                {{model.creationDate | date : "dd.MM.yyyy" : "UTC"}}
+            <div class='info'>
+                <fa-icon [icon]='faDate'></fa-icon> Published on
+                {{model.creationDate | date : 'dd.MM.yyyy' : 'UTC'}}
             </div>
-            <a class="button" href="/assets/models/{{model.filename}}" download="{{model.name}}.{{model.filetype}}">
+            <a class='button' href='/assets/models/{{model.filename}}' download='{{model.name}}.{{model.filetype}}'>
                 <div>
-                    <fa-icon [icon]="faDownload"></fa-icon>
+                    <fa-icon [icon]='faDownload'></fa-icon>
                     Download (.{{model.filetype}})
                 </div>
             </a>

@@ -3,29 +3,29 @@
         <div class='titlebar'>
             <h2>Upload</h2>
         </div>
-        <form id="uploadForm" #uploadForm="ngForm" class="form" (ngSubmit)="onSubmit($event)" method="POST">
+        <form id='uploadForm' #uploadForm='ngForm' class='form' (ngSubmit)='onSubmit($event)' method='POST'>
             <div class='inputbar'>
-                <label for="name">Name:</label>
-                <input type="text" #name="ngModel" id="name" name="name" [(ngModel)]="model.name"
-                    placeholder="Name of model to upload" required>
-                <div [hidden]="name.valid || name.pristine" class="info alert">
-                    <fa-icon [icon]="faWarning"></fa-icon> Name is required!
+                <label for='name'>Name:</label>
+                <input type='text' #name='ngModel' id='name' name='name' [(ngModel)]='model.name'
+                    placeholder='Name of model to upload' required>
+                <div [hidden]='name.valid || name.pristine' class='info alert'>
+                    <fa-icon [icon]='faWarning'></fa-icon> Name is required!
                 </div>
             </div>
 
             <div class='inputbar'>
-                <label for="file">File:</label>
-                <input type="file" #filename="ngModel" id="file" name="filename"
-                    (change)="onFileChange($event.target.files)" [(ngModel)]="model.filename"
-                    accept="{{supportedTypes}}" required>
-                <div [hidden]="filename.valid || filename.pristine" class="info alert">
-                    <fa-icon [icon]="faWarning"></fa-icon> File is required!
+                <label for='file'>File:</label>
+                <input type='file' #filename='ngModel' id='file' name='filename'
+                    (change)='onFileChange($event.target.files)' [(ngModel)]='model.filename'
+                    accept='{{supportedTypes}}' required>
+                <div [hidden]='filename.valid || filename.pristine' class='info alert'>
+                    <fa-icon [icon]='faWarning'></fa-icon> File is required!
                 </div>
             </div>
-            <app-viewer id="viewer" class="hidden" [isPreview]="true" [resolutionX]="640" [resolutionY]="480">
+            <app-viewer id='viewer' class='hidden' [isPreview]='true' [resolutionX]='640' [resolutionY]='480'>
             </app-viewer>
-            <input type="hidden" id="thumbnailDataUrl" name="thumbnailDataUrl" [(ngModel)]="model.thumbnailDataUrl">
-            <button type="submit" class="button" [disabled]="!uploadForm.form.valid">Submit</button>
+            <input type='hidden' id='thumbnailDataUrl' name='thumbnailDataUrl' [(ngModel)]='model.thumbnailDataUrl'>
+            <button type='submit' class='button' [disabled]='!uploadForm.form.valid'>Submit</button>
         </form>
     </div>
 </div>
