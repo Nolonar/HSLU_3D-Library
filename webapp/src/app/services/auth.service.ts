@@ -42,7 +42,7 @@ export class AuthService {
     }
 
     public isLoggedIn() {
-        return this.getExpirationDate() < new Date();
+        return new Date() < this.getExpirationDate();
     }
 
     getExpirationDate() {

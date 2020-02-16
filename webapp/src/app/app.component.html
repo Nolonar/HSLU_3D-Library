@@ -6,12 +6,20 @@
         </h1>
     </a>
     <div>
-        <a class='button' routerLink='/login'>
-            <fa-icon [icon]='faSignIn'></fa-icon> Login
-        </a>
-        <a class='button' routerLink='/upload'>
-            <fa-icon [icon]='faUpload'></fa-icon> Upload
-        </a>
+        <div *ngIf='authService.isLoggedIn(); else loggedOut'>
+            <a class='button' routerLink='/upload'>
+                <fa-icon [icon]='faUpload'></fa-icon> Upload
+            </a>
+            <button class='button' (click)='authService.logout()'>
+                <fa-icon [icon]='faSignOut'></fa-icon> Logout
+            </button>
+        </div>
     </div>
 </div>
 <router-outlet></router-outlet>
+
+<ng-template #loggedOut>
+    <a class='button' routerLink='/login'>
+        <fa-icon [icon]='faSignIn'></fa-icon> Login
+    </a>
+</ng-template>

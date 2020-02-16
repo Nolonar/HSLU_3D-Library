@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faClock, faFileDownload, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { DatabaseModel } from '../models/database-model';
+import { AuthService } from '../services/auth.service';
 import { ModelService } from '../services/model.service';
 
 @Component({
@@ -16,7 +17,13 @@ export class DetailComponent implements OnInit {
     faDate = faClock;
     faDelete = faTrash;
 
-    constructor(private router: Router, private route: ActivatedRoute, private modelService: ModelService) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private modelService: ModelService) {
+        // empty
+    }
 
     ngOnInit() {
         this.getModel();
