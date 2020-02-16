@@ -1,5 +1,3 @@
-import { JwtResponse } from "./app/models/jwt-response";
-
 const frontendDomain = 'http://localhost:4200';
 
 /**
@@ -108,27 +106,23 @@ app.post('/login', upload.single(), async (req, res) => {
     const password = req.body.password;
     const RSA_PRIVATE_KEY = 'MySecretKey';
 
-    if (validateAuthentication()) {
-        const userId = '1';
+    if (validateAuthentication(username, password)) {
+        const expiresIn = 60 * 60;
         const data = {};
         const options = {
             // algorithm: 'RS256',
-            expiresIn: 120,
-            subject: userId
+            expiresIn,
+            subject: username
         };
-        const jwtBearerToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
-        const jwtResponse: JwtResponse = {
-            idToken: jwtBearerToken,
-            expiresIn: 120
-        };
-        res.status(200).json(jwtResponse);
+        const idToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
+        res.status(200).json({ idToken, expiresIn, username });
     } else {
         res.sendStatus(401);
     }
 });
 
-function validateAuthentication() {
-    return true;
+function validateAuthentication(username, passsword) {
+    return username === 'PiratePeter';
 }
 
 function saveImage(dataUrl, filename) {
