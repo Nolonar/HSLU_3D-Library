@@ -253,7 +253,6 @@ export class ViewerComponent implements OnInit {
 
     private normalizeModelSize(model: Model3D) {
         const size = new Vector3();
-        console.log(model);
         new Box3().setFromObject(model.mesh).getSize(size);
 
         const scale = 2 / Math.max(size.x, size.y);

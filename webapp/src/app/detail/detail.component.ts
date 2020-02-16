@@ -33,8 +33,7 @@ export class DetailComponent implements OnInit {
         const id = this.route.snapshot.paramMap.get('id');
         this.modelService.getModelById(id).subscribe(m => {
             if (!m) {
-                // Need to use router (instead of location), otherwise 404 will return an empty page.
-                void this.router.navigateByUrl('/404'); // No need to handle promise when redirecting.
+                void this.router.navigateByUrl('/404'); // return nothing
             }
             this.model = m;
         });

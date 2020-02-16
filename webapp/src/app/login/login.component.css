@@ -5,3 +5,7 @@ input {
 label {
     width: 100pt;
 }
+
+#buttonbar {
+    width: 100%;
+}

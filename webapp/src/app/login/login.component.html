@@ -7,12 +7,25 @@
             <div class='inputbar'>
                 <label>Username:</label>
                 <input name='username' formControlName='username' type='text' placeholder='Username' required>
+                <div *ngIf="submitted && formControls.username.errors && formControls.username.errors.required"
+                    class='info alert'>
+                    <fa-icon [icon]='faWarning'></fa-icon> Username is required
+                </div>
             </div>
             <div class='inputbar'>
                 <label>Password:</label>
                 <input name='password' formControlName='password' type='password' placeholder='Password' required>
+                <div *ngIf="submitted && formControls.password.errors && formControls.password.errors.required"
+                    class="info alert">
+                    <fa-icon [icon]='faWarning'></fa-icon> Password is required
+                </div>
             </div>
-            <button class='button' (click)='login()'>Login</button>
+            <div id='buttonbar' class='inputbar'>
+                <button class='button' (click)='login()'>Login</button>
+                <div *ngIf='error' class='info alert'>
+                    <fa-icon [icon]='faWarning'></fa-icon> {{error}}
+                </div>
+            </div>
         </form>
     </div>
 </div>

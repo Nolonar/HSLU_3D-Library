@@ -12,6 +12,8 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     faWarning = faExclamationTriangle;
+    error = '';
+    submitted = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -26,16 +28,24 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    public login() {
-        const values = this.loginForm.value;
+    get formControls() {
+        return this.loginForm.controls;
+    }
 
-        if (values.username && values.password) {
-            this.authService.login(values.username, values.password)
+    public login() {
+        this.submitted = true;
+        const username = this.loginForm.value.username;
+        const password = this.loginForm.value.password;
+
+        if (username && password) {
+            this.authService.login(username, password)
                 .subscribe(
                     () => {
-                        void this.router.navigateByUrl('/');
-                    }
-                );
+                        void this.router.navigateByUrl('/'); // return nothing
+                    },
+                    error => {
+                        this.error = error.error.message;
+                    });
         }
     }
 }

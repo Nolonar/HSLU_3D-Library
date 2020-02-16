@@ -102,22 +102,26 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 app.post('/login', upload.single(), async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    const RSA_PRIVATE_KEY = 'MySecretKey';
+    if (req.body) {
+        const username = req.body.username;
+        const password = req.body.password;
+        const RSA_PRIVATE_KEY = 'MySecretKey';
 
-    if (validateAuthentication(username, password)) {
-        const expiresIn = 60 * 60;
-        const data = {};
-        const options = {
-            // algorithm: 'RS256',
-            expiresIn,
-            subject: username
-        };
-        const idToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
-        res.status(200).json({ idToken, expiresIn, username });
+        if (validateAuthentication(username, password)) {
+            const expiresIn = 60 * 60;
+            const data = {};
+            const options = {
+                // algorithm: 'RS256',
+                expiresIn,
+                subject: username
+            };
+            const idToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
+            res.status(200).json({ idToken, expiresIn, username });
+        } else {
+            res.status(403).json({ message: 'Username or password is incorrect' });
+        }
     } else {
-        res.sendStatus(401);
+        res.status(401).json({ message: 'No credentials provided' });
     }
 });
 

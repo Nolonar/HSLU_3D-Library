@@ -91,9 +91,12 @@ body {
 }
 
 .alert {
-    color: #a94442;
-    top: 1.5em;
+    top: 2.5em;
     position: absolute;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-radius: 3pt;
+    border: thin solid #f5c6cb;
 }
 
 .inputbar {
@@ -108,6 +111,8 @@ input {
     border-radius: 3pt;
     font-size: medium;
     background-color: #f7f7f7;
+    margin: 5pt;
+    padding: 5pt 10pt;
 }
 
 label {
