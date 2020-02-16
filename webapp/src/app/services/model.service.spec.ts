@@ -15,6 +15,7 @@ describe('ModelService', () => {
 
     it('should be created', async () => {
         const service: ModelService = TestBed.inject(ModelService);
+        console.log('ModelService: ' + service);
         expect(service).toBeTruthy();
     });
 });
