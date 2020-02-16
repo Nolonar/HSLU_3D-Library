@@ -106,7 +106,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 app.post('/login', upload.single(), async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    console.log(`username: ${username}, password: ${password}`);
     const RSA_PRIVATE_KEY = 'MySecretKey';
 
     if (validateAuthentication()) {

@@ -30,37 +30,24 @@ export class AuthService {
     }
 
     logout() {
-        localStorage.removeItem("id_token");
-        localStorage.removeItem("expires_at");
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('expires_at');
     }
 
     private setSession(authResult: JwtResponse) {
         const expiresAt = new Date();
         expiresAt.setSeconds(expiresAt.getSeconds() + authResult.expiresIn);
-        console.log('id_token: ' + authResult.idToken);
-        console.log('expiresIn: ' + authResult.expiresIn);
-        console.log('expires_at: ' + expiresAt);
-        console.log(authResult);
         localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+        localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
     }
-
 
     public isLoggedIn() {
         return this.getExpirationDate() < new Date();
     }
 
-    isLoggedOut() {
-        return !this.isLoggedIn();
-    }
-
     getExpirationDate() {
-        const expiration = localStorage.getItem("expires_at");
+        const expiration = localStorage.getItem('expires_at');
         const expiresAt = JSON.parse(expiration);
-        const exirationDate = new Date(expiresAt);
-        console.log('expiresAt: ' + expiresAt);
-        console.log('exirationDate: ' + exirationDate);
-        return exirationDate;
+        return new Date(expiresAt);
     }
 }
-
