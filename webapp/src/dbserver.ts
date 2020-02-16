@@ -25,28 +25,35 @@ const filesystem = require('fs');
 
 const jwt = require('jsonwebtoken');
 
-const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
-const dbDomain = process.env.DB_DOMAIN;
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_DOMAIN = process.env.DB_DOMAIN;
+const SECRET_KEY = process.env.SECRET_KEY;
+
+
 let propertiesAvailable = true;
 let client;
 
-if (!dbUser) {
+if (!DB_USER) {
     console.warn(`Environment property 'DB_USER' is missing: `);
     propertiesAvailable = false;
 }
-if (!dbPassword) {
+if (!DB_PASSWORD) {
     console.warn(`Environment property 'DB_PASSWORD' is missing: `);
     propertiesAvailable = false;
 }
-if (!dbDomain) {
-    console.warn(`Environment property 'DB_USER' is missing: `);
+if (!DB_DOMAIN) {
+    console.warn(`Environment property 'DB_DOMAIN' is missing: `);
+    propertiesAvailable = false;
+}
+if (!SECRET_KEY) {
+    console.warn(`Environment property 'SECRET_KEY' is missing: `);
     propertiesAvailable = false;
 }
 if (propertiesAvailable) {
     console.log(`starting db server...`);
     // Opening a connection takes time, so we only do it once when the server starts, and never close it.
-    client = MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@${dbDomain}/test?retryWrites=true&w=majority`, {
+    client = MongoClient.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_DOMAIN}/test?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
@@ -66,7 +73,7 @@ async function getModelsCollection() {
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', frontendDomain);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
 
@@ -80,42 +87,50 @@ app.get('/model/:modelId', async (req, res) => {
 });
 
 app.delete('/model/:modelId', async (req, res) => {
-    const modelId = req.params['modelId'];
-    const model = await findOneWhere(getQueryById(modelId));
-    sendResponse(res, async () => await deleteModel(model));
+    try {
+        verifyToken(req);
+        const modelId = req.params['modelId'];
+        const model = await findOneWhere(getQueryById(modelId));
+        sendResponse(res, async () => await deleteModel(model));
+    } catch (err) {
+        res.status(403).json({ message: err.message });
+    }
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-    const filename = req.file['filename'];
-    saveImage(req.body['thumbnailDataUrl'], filename);
-    const toInsert = {
-        name: req.body['name'].trim(),
-        filename: filename,
-        filetype: req.file['originalname'].split('.').pop(),
-        creationDate: new Date(),
-        uploaderId: '1'
-    };
+    try {
+        const decoded = verifyToken(req);
+        const filename = req.file['filename'];
+        saveImage(req.body['thumbnailDataUrl'], filename);
+        const toInsert = {
+            name: req.body['name'].trim(),
+            filename: filename,
+            filetype: req.file['originalname'].split('.').pop(),
+            creationDate: new Date(),
+            uploaderId: decoded.sub
+        };
 
-    const collection = await getModelsCollection();
-    const result = await collection.insertOne(toInsert);
-    sendResponse(res, async () => await collection.findOne(getQueryById(result.insertedId)));
+        const collection = await getModelsCollection();
+        const result = await collection.insertOne(toInsert);
+        sendResponse(res, async () => await collection.findOne(getQueryById(result.insertedId)));
+    } catch (err) {
+        res.status(403).json({ message: err.message });
+    }
 });
 
 app.post('/login', upload.single(), async (req, res) => {
     if (req.body) {
         const username = req.body.username;
         const password = req.body.password;
-        const RSA_PRIVATE_KEY = 'MySecretKey';
 
         if (validateAuthentication(username, password)) {
             const expiresIn = 60 * 60;
             const data = {};
             const options = {
-                // algorithm: 'RS256',
                 expiresIn,
                 subject: username
             };
-            const idToken = jwt.sign(data, RSA_PRIVATE_KEY, options);
+            const idToken = jwt.sign(data, SECRET_KEY, options);
             res.status(200).json({ idToken, expiresIn, username });
         } else {
             res.status(403).json({ message: 'Username or password is incorrect' });
@@ -127,6 +142,25 @@ app.post('/login', upload.single(), async (req, res) => {
 
 function validateAuthentication(username, passsword) {
     return username === 'PiratePeter';
+}
+
+function verifyToken(req) {
+    const idToken = req.headers.authorization;
+
+    // verify signature
+    const decoded = jwt.verify(idToken, SECRET_KEY);
+
+    // verify time range
+    const issuedAt = new Date(1000 * decoded.iat);
+    const expiresAt = new Date(1000 * decoded.exp);
+    const now = new Date();
+
+    if (now < issuedAt) {
+        throw Error('Invalid token iat');
+    } else if (expiresAt < now) {
+        throw Error('Invalid token exp');
+    }
+    return decoded;
 }
 
 function saveImage(dataUrl, filename) {
