@@ -25,6 +25,8 @@ const filesystem = require('fs');
 
 const jwt = require('jsonwebtoken');
 
+const bcrypt = require('bcryptjs');
+
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DOMAIN = process.env.DB_DOMAIN;
@@ -68,6 +70,11 @@ async function getDb() {
 async function getModelsCollection() {
     const db = await getDb();
     return db.collection('models');
+}
+
+async function getUsersCollection() {
+    const db = await getDb();
+    return db.collection('users');
 }
 
 app.use((req, res, next) => {
@@ -123,7 +130,7 @@ app.post('/login', upload.single(), async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
 
-        if (validateAuthentication(username, password)) {
+        if (await validateAuthentication(username, password)) {
             const expiresIn = 60 * 60;
             const data = {};
             const options = {
@@ -140,8 +147,13 @@ app.post('/login', upload.single(), async (req, res) => {
     }
 });
 
-function validateAuthentication(username, passsword) {
-    return username === 'PiratePeter';
+async function validateAuthentication(username, password) {
+    const collection = await getUsersCollection();
+    const result = await collection.findOne({ username });
+    if (result) {
+        return await bcrypt.compare(password, result.password);
+    }
+    return false;
 }
 
 function verifyToken(req) {

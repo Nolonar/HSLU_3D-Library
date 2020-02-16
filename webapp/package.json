@@ -21,6 +21,7 @@
         "@fortawesome/angular-fontawesome": "^0.6.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.27",
         "@fortawesome/free-solid-svg-icons": "^5.12.1",
+        "bcryptjs": "^2.4.3",
         "colors": "^1.4.0",
         "dotenv": "^5.0.1",
         "jsonwebtoken": "^8.5.1",
