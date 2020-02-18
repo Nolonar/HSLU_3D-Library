@@ -105,10 +105,9 @@ app.delete('/model/:modelId', async (req, res) => {
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
+    const filename = req.file['filename'];
     try {
         const decoded = verifyToken(req);
-        const filename = req.file['filename'];
-        saveImage(req.body['thumbnailDataUrl'], filename);
         const toInsert = {
             name: req.body['name'].trim(),
             filename: filename,
@@ -119,8 +118,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
         const collection = await getModelsCollection();
         const result = await collection.insertOne(toInsert);
+
+        // Save image only after successful insert.
+        saveImage(req.body['thumbnailDataUrl'], filename);
         sendResponse(res, async () => await collection.findOne(getQueryById(result.insertedId)));
     } catch (err) {
+        try {
+            await deleteFile(`src/assets/models/${filename}`);
+        } catch { /* Best effort */ }
         res.status(403).json({ message: err.message });
     }
 });
