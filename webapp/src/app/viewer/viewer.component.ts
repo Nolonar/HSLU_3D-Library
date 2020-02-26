@@ -205,17 +205,18 @@ export class ViewerComponent implements OnInit {
                 return;
             }
 
+            const smoothing = 0.01;
             const delta = {
-                x: mousePreviousLocation.x - event.clientX,
-                y: mousePreviousLocation.y - event.clientY
+                x: (mousePreviousLocation.x - event.clientX) * smoothing,
+                y: (mousePreviousLocation.y - event.clientY) * smoothing
             };
+
+            this.rotateCamera(delta);
 
             mousePreviousLocation = {
                 x: event.clientX,
                 y: event.clientY
             };
-
-            this.rotateCamera(delta);
         };
 
         canvas.onmouseup = (event) => {
@@ -223,7 +224,8 @@ export class ViewerComponent implements OnInit {
         };
 
         canvas.onwheel = (event) => {
-            this.zoom(event.deltaY);
+            const smoothing = 0.005;
+            this.zoom(event.deltaY * smoothing);
 
             event.preventDefault();
             return false;
@@ -231,17 +233,14 @@ export class ViewerComponent implements OnInit {
     }
 
     private rotateCamera(delta: { x: number, y: number }) {
-        const mouseSmoothing = 0.01;
-        const { x: rotY, y: rotX } = delta;
-        this.camera.rotateX(rotX * mouseSmoothing);
-        this.camera.rotateY(rotY * mouseSmoothing);
+        this.camera.rotateX(delta.y);
+        this.camera.rotateOnWorldAxis(new Vector3(0, 1, 0), delta.x);
 
         this.updateCamera();
     }
 
-    private zoom(delta: number) {
-        const mouseSmoothing = 0.005;
-        this.cameraDistance += delta * mouseSmoothing;
+    private zoom(zoom: number) {
+        this.cameraDistance += zoom;
         this.cameraDistance = Math.max(2, Math.min(20, this.cameraDistance));
 
         this.updateCamera();
@@ -251,7 +250,6 @@ export class ViewerComponent implements OnInit {
         const target = this.model?.mesh.position ?? new Vector3();
         this.camera.position.set(target.x, target.y, target.z);
         this.camera.translateZ(this.cameraDistance);
-        this.camera.lookAt(target);
     }
 
     private populateAnimationSelect(animations: AnimationClip[]) {
