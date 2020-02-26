@@ -28,8 +28,9 @@ export class ViewerComponent implements OnInit {
     private renderer: WebGLRenderer;
     private scene: Scene;
     private grid: GridHelper;
-    private camera: Camera;
     private mixer: AnimationMixer;
+    private camera: Camera;
+    private cameraDistance = 5;
 
     private model: Model3D;
 
@@ -132,6 +133,7 @@ export class ViewerComponent implements OnInit {
 
     private onLoad(model: Model3D) {
         this.loadModel(model);
+        this.resetCamera();
         this.hide(this.progressBar);
         requestAnimationFrame(this.animate.bind(this));
     }
@@ -180,11 +182,12 @@ export class ViewerComponent implements OnInit {
         const near = 2;
         const far = 1000;
         this.camera = new PerspectiveCamera(fov, aspectRatio, near, far);
-        this.resetCameraZoom();
     }
 
-    private resetCameraZoom() {
-        this.camera.position.z = 5;
+    private resetCamera() {
+        this.cameraDistance = 5;
+        this.camera.rotation.set(0, 0, 0);
+        this.updateCamera();
     }
 
     private registerEventHandlers(canvas: HTMLCanvasElement) {
@@ -203,8 +206,8 @@ export class ViewerComponent implements OnInit {
             }
 
             const delta = {
-                x: event.clientX - mousePreviousLocation.x,
-                y: event.clientY - mousePreviousLocation.y
+                x: mousePreviousLocation.x - event.clientX,
+                y: mousePreviousLocation.y - event.clientY
             };
 
             mousePreviousLocation = {
@@ -212,13 +215,7 @@ export class ViewerComponent implements OnInit {
                 y: event.clientY
             };
 
-            const mouseSmoothing = 0.01;
-            this.model.mesh.rotation.y += delta.x * mouseSmoothing;
-            this.model.mesh.rotation.x += delta.y * mouseSmoothing;
-            if (this.grid) {
-                this.grid.rotation.y += delta.x * mouseSmoothing;
-                this.grid.rotation.x += delta.y * mouseSmoothing;
-            }
+            this.rotateCamera(delta);
         };
 
         canvas.onmouseup = (event) => {
@@ -226,13 +223,35 @@ export class ViewerComponent implements OnInit {
         };
 
         canvas.onwheel = (event) => {
-            const mouseSmoothing = 0.005;
-            const newPositionZ = this.camera.position.z - event.deltaY * mouseSmoothing;
-            this.camera.position.z = Math.max(2, Math.min(20, newPositionZ));
+            this.zoom(event.deltaY);
 
             event.preventDefault();
             return false;
         };
+    }
+
+    private rotateCamera(delta: { x: number, y: number }) {
+        const mouseSmoothing = 0.01;
+        const { x: rotY, y: rotX } = delta;
+        this.camera.rotateX(rotX * mouseSmoothing);
+        this.camera.rotateY(rotY * mouseSmoothing);
+
+        this.updateCamera();
+    }
+
+    private zoom(delta: number) {
+        const mouseSmoothing = 0.005;
+        this.cameraDistance += delta * mouseSmoothing;
+        this.cameraDistance = Math.max(2, Math.min(20, this.cameraDistance));
+
+        this.updateCamera();
+    }
+
+    private updateCamera() {
+        const target = this.model?.mesh.position ?? new Vector3();
+        this.camera.position.set(target.x, target.y, target.z);
+        this.camera.translateZ(this.cameraDistance);
+        this.camera.lookAt(target);
     }
 
     private populateAnimationSelect(animations: AnimationClip[]) {
@@ -245,8 +264,6 @@ export class ViewerComponent implements OnInit {
     }
 
     private selectAnimation(animationName: string) {
-        this.resetCameraZoom();
-
         this.model.currentAnimation = AnimationClip.findByName(this.model.animations, animationName);
         this.playAnimation(this.model);
     }
