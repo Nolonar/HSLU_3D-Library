@@ -130,7 +130,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     }
 });
 
-app.post('/login', upload.single(), async (req, res) => {
+app.post('/login', upload.none(), async (req, res) => {
     if (req.body) {
         const username = req.body.username;
         const password = req.body.password;
